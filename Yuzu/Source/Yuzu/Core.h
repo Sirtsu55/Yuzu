@@ -7,8 +7,8 @@
 #include <fstream>
 #include <memory>
 #include <thread>
-
-
+#include <chrono>
+#include <thread>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -22,11 +22,15 @@
 #include <imgui/imgui_impl_opengl3.h>
 
 #include "Log/Logger.h"
-#include "Timer/Timer.h"
+#include "Timer/Timers.h"
 
-#define LOG
+#ifndef MACROS_SETUP
 
-#ifdef LOG
+#define MACROS_SETUP
+
+#define LOG 1
+
+#if LOG
 
 
 //CORE LOGGER
@@ -44,12 +48,29 @@
 #define YZA_TRACE(...)    Yuzu::Log::GetClientLogger()->trace(__VA_ARGS__)
 
 #endif // LOG
+
+
+
+
+#define PROFILING 1
+#if PROFILING
+	#define YZ_PROFILE_FUNCTION(Name) Yuzu::ScopedTimer Timer##__LINE__(Name)
+	#define YZ_PROFILE_FUNCTION() Yuzu::ScopedTimer Timer##__LINE__(__FUNCTION__)
+	#define YZ_PROFILE_FUNCTION_SIG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCSIG__)
+
+#else
+
+	#define YZ_PROFILE_FUNCTION(Name)
+	#define YZ_PROFILE_FUNCTION()
+	#define YZ_PROFILE_FUNCTION_SIG()
+
+#endif // PROFILING
+
+
 //---------------------------------------
 //-----DEBUG-----------------------------
 //---------------------------------------
-#ifndef DEBUG_HAS_BEEN_SETUP
 
-#define DEBUG_HAS_BEEN_SETUP
 
 
 #define DEBUG_LEVEL 4
@@ -93,7 +114,7 @@ static void GLAPIENTRY OpenGLErrorCallback(GLenum source​, GLenum type​, GLu
 
 #endif // DEBUG_LEVEL != 0
 
-#endif // !DEBUG_HAS_BEEN_SETUP
+#endif // !MACROS_SETUP
 
 //---------------------------------------
 //---------------------------------------

@@ -55,6 +55,7 @@ void SandboxApp::OnUpdate(float DeltaTime)
 
 int main()
 {
+	Yuzu::TimerWriter::StartSession("App");
 	Yuzu::Log::Init();
 
 

@@ -5,24 +5,24 @@
 namespace Yuzu
 {
 
-	class Timer
+	enum class TimerAccuracy
+	{
+		MilliSec,
+		MicroSec,
+		NanoSec,
+		Seconds
+
+	};
+
+	class SimpleTimer
 	{
 	public:
-		enum class Accuracy
-		{
-			MilliSec,
-			MicroSec,
-			NanoSec,
-			Seconds
-
-		};
-
-		Timer();
-		~Timer();
+		SimpleTimer();
+		~SimpleTimer();
 
 
 		void Start();
-		double End(Accuracy acc);
+		double End(TimerAccuracy acc);
 		double End();
 
 
@@ -31,7 +31,7 @@ namespace Yuzu
 		std::chrono::steady_clock::time_point EndTime;
 	};
 	static double GetElapsedSeconds();
-	static double GetElapsedSeconds(Timer::Accuracy acc);
+	static double GetElapsedSeconds(TimerAccuracy acc);
 }
 
 

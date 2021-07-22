@@ -100,6 +100,7 @@ namespace Yuzu
 
 	void BatchRenderer::InsertQuad(Vertex* NewVertices, unsigned int NumOfVertices)
 	{
+		YZ_PROFILE_FUNCTION();
 		if (m_VBO)
 		{
 			void* DataPtr = glMapBufferRange(GL_ARRAY_BUFFER, m_NumFilled * sizeof(Vertex), sizeof(Vertex) * NumOfVertices, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);

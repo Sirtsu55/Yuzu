@@ -2,7 +2,6 @@
 
 #include "Window.h"
 #include "Rendering/Objects/Shader.h"
-#include "Timer/Timer.h"
 #include "Rendering/Objects/VertexArray.h"
 #include "Rendering/Objects/VertexBuffer.h"
 #include "Rendering/Objects/VertexBufferLayout.h"
@@ -125,6 +124,8 @@ namespace Yuzu
 
 	void Window::MainLoop()
 	{
+		YZ_PROFILE_FUNCTION();
+
 		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
 
 		cam.Activate();
@@ -195,12 +196,14 @@ namespace Yuzu
 
 
 
-		Yuzu::Timer FrameTimer;
+		Yuzu::SimpleTimer FrameTimer;
 
 
 
 		while (!glfwWindowShouldClose(m_window))
 		{
+			YZ_PROFILE_FUNCTION("FrameTime");
+
 			FrameTimer.Start();
 			StartFrame();
 			renderer.Clear();
@@ -240,7 +243,7 @@ namespace Yuzu
 			SwapBuffers();
 			HandleInput();
 
-			FrameTime = static_cast<float>(FrameTimer.End(Timer::Accuracy::Seconds));
+			FrameTime = static_cast<float>(FrameTimer.End(TimerAccuracy::Seconds));
 		}
 		BatchRenderer::ShutDown();
 	}

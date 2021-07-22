@@ -179,6 +179,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Yuzu\Timer\ScopedTimer.h" />
     <ClInclude Include="Source\Yuzu\Log\Logger.h" />
     <ClInclude Include="Source\Yuzu\Rendering\Renderer\BatchRenderer.h" />
     <ClInclude Include="Source\Yuzu\Core.h" />
@@ -189,11 +190,13 @@
     <ClInclude Include="Source\Yuzu\Rendering\Objects\VertexArray.h" />
     <ClInclude Include="Source\Yuzu\Rendering\Objects\VertexBuffer.h" />
     <ClInclude Include="Source\Yuzu\Rendering\Objects\VertexBufferLayout.h" />
-    <ClInclude Include="Source\Yuzu\Timer\Timer.h" />
+    <ClInclude Include="Source\Yuzu\Timer\SimpleTimer.h" />
+    <ClInclude Include="Source\Yuzu\Timer\Timers.h" />
     <ClInclude Include="Source\Yuzu\Window\Window.h" />
     <ClInclude Include="Source\Yuzu\Application\Application.h" />
     <ClInclude Include="Source\Yuzu\World\Camera.h" />
     <ClInclude Include="Source\Yuzu.h" />
+    <ClInclude Include="Source\Yuzu\Timer\TimerWriter.h" />
     <ClInclude Include="Vendor\fmt\chrono.h" />
     <ClInclude Include="Vendor\fmt\color.h" />
     <ClInclude Include="Vendor\fmt\compile.h" />
@@ -460,6 +463,7 @@
     <ClInclude Include="Vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Yuzu\Timer\ScopedTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Log\Logger.cpp" />
     <ClCompile Include="Source\Yuzu\Rendering\Renderer\BatchRenderer.cpp" />
     <ClCompile Include="Source\Yuzu\Application\Application.cpp" />
@@ -487,9 +491,10 @@
     <ClCompile Include="Source\Yuzu\Rendering\Objects\Texture.cpp" />
     <ClCompile Include="Source\Yuzu\Rendering\Objects\VertexArray.cpp" />
     <ClCompile Include="Source\Yuzu\Rendering\Objects\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Yuzu\Timer\Timer.cpp" />
+    <ClCompile Include="Source\Yuzu\Timer\SimpleTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Window\Window.cpp" />
     <ClCompile Include="Source\Yuzu\World\Camera.cpp" />
+    <ClCompile Include="Source\Yuzu\Timer\TimerWriter.cpp" />
     <ClCompile Include="Vendor\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

@@ -1,6 +1,6 @@
 #include "Core.h"
 
-#include "Timer.h"
+#include "SimpleTimer.h"
 
 
 namespace Yuzu 
@@ -8,21 +8,21 @@ namespace Yuzu
 
 	auto ProgramStartTime = std::chrono::high_resolution_clock::now();
 
-	Timer::Timer()
+	SimpleTimer::SimpleTimer()
 	{
 	}
 
-	Timer::~Timer()
+	SimpleTimer::~SimpleTimer()
 	{
 
 	}
 
-	void Timer::Start()
+	void SimpleTimer::Start()
 	{
 		StartTime = std::chrono::high_resolution_clock::now();
 	}
 	/// Gives Time in Seconds
-	double Timer::End()
+	double SimpleTimer::End()
 	{
 		EndTime = std::chrono::high_resolution_clock::now();
 
@@ -32,32 +32,32 @@ namespace Yuzu
 	}
 	/// Gives Time in Specified accuracy
 
-	double Timer::End(Accuracy acc)
+	double SimpleTimer::End(TimerAccuracy acc)
 	{
 
 		EndTime = std::chrono::high_resolution_clock::now();
 
 		switch (acc)
 		{
-		case Accuracy::MilliSec:
+		case TimerAccuracy::MilliSec:
 			{
 				std::chrono::duration<double, std::milli> Duration = EndTime - StartTime;
 				return Duration.count();
 				break;
 			}
-			case Accuracy::MicroSec:
+			case TimerAccuracy::MicroSec:
 			{
 				std::chrono::duration<double, std::micro> Duration = EndTime - StartTime;
 				return Duration.count();
 				break;
 			}
-			case Accuracy::NanoSec:
+			case TimerAccuracy::NanoSec:
 			{
 				std::chrono::duration<double, std::nano> Duration = EndTime - StartTime;
 				return Duration.count();
 				break;
 			}
-			case Accuracy::Seconds:
+			case TimerAccuracy::Seconds:
 			{
 				std::chrono::duration<double> Duration = EndTime - StartTime;
 				return Duration.count();
@@ -79,32 +79,32 @@ namespace Yuzu
 	}
 
 
-	double GetElapsedSeconds(Timer::Accuracy acc)
+	double GetElapsedSeconds(TimerAccuracy acc)
 	{
 
 		auto EndTime = std::chrono::high_resolution_clock::now();
 
 		switch (acc)
 		{
-			case Timer::Accuracy::MilliSec:
+		case TimerAccuracy::MilliSec:
 			{
 				std::chrono::duration<double, std::milli> Duration = EndTime - ProgramStartTime;
 				return Duration.count();
 				break;
 			}
-			case Timer::Accuracy::MicroSec:
+			case TimerAccuracy::MicroSec:
 			{
 				std::chrono::duration<double, std::micro> Duration = EndTime - ProgramStartTime;
 				return Duration.count();
 				break;
 			}
-			case Timer::Accuracy::NanoSec:
+			case TimerAccuracy::NanoSec:
 			{
 				std::chrono::duration<double, std::nano> Duration = EndTime - ProgramStartTime;
 				return Duration.count();
 				break;
 			}
-			case Timer::Accuracy::Seconds:
+			case TimerAccuracy::Seconds:
 			{
 				std::chrono::duration<double> Duration = EndTime - ProgramStartTime;
 				return Duration.count();
