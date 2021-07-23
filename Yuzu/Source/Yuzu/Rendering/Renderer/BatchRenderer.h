@@ -13,9 +13,20 @@ namespace Yuzu
 		const char* m_ShaderPath;
 
 	};
+
+	struct VertexID
+	{
+		Vertex* VertexPtr;
+		unsigned int VerticesSize;
+
+		unsigned int* IndexPtr;
+		unsigned int IndicesSize;
+	};
+
+	/// Position, TextureID, Size, VertexColor
 	struct QuadSettings
 	{
-		glm::vec3 Posiition;
+		glm::vec3 Position;
 		float TexID;
 		float Size;
 		glm::vec4 Color = glm::vec4(0.0f);
@@ -28,32 +39,43 @@ namespace Yuzu
 		
 		
 
-		static unsigned int m_VAO;
-		static unsigned int m_VBO;
-		static unsigned int m_EBO;
+		unsigned int m_VAO;
+		unsigned int m_VBO;
+		unsigned int m_EBO;
 
-		static unsigned int* m_IndicesPtr;
+		unsigned int* m_IndicesPtr;
+		Vertex* m_VerticesPtr;
 
-		static Shader* m_Shader;
-		static BatchSettings m_Settings;
+		Shader* m_Shader;
+		BatchSettings m_Settings;
 
-		static Vertex* m_Vertices;
-		static unsigned int m_NumFilled;
+		unsigned int m_VerticesFilled;
+		unsigned int m_IndicesFilled;
 
 
 	public:
-		BatchRenderer() = delete;
-		~BatchRenderer() = delete;
-
-		static void Init(const BatchSettings& Settings);
-		static void ShutDown();
+		BatchRenderer(const BatchSettings& Settings);
+		~BatchRenderer();
 		
-		static void RenderBatch();
+		void RenderBatch() const;
+	
+		
+		const VertexID InsertVertices(Vertex* NewVertices, unsigned int NumOfVertices, unsigned int* NewIndices, unsigned int NumOfIndices);
+		
+		
+		/// Change Vertices and also Indices
+		void ChangeVertices(const VertexID& Location, Vertex* NewVertices, unsigned int* NewIndices);
 
-		static void InsertQuad(Vertex* NewVertices, unsigned int NumOfVertices);
-		static void InsertTexture(Sptr<Yuzu::Texture> NewTexture, int TextureLocation);
+		/// Change Vertices only
+		void ChangeVertices(const VertexID& Location, Vertex* NewVertices);
+
+
+		void InsertTexture(Sptr<Yuzu::Texture> NewTexture, int TextureLocation);
 
 		static void CreateQuads(Vertex* Destination, const QuadSettings& Settings);
+
+		void Flush();
+
 	};
 
 

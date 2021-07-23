@@ -3,26 +3,18 @@
 #include "World/Camera.h"
 namespace Yuzu
 {
-	unsigned int BatchRenderer::m_VAO = 0;
-	unsigned int BatchRenderer::m_VBO = 0;
-	unsigned int BatchRenderer::m_EBO = 0;
-	unsigned int BatchRenderer::m_NumFilled = 0;
-
-	unsigned int* BatchRenderer::m_IndicesPtr = nullptr;
-
-	BatchSettings BatchRenderer::m_Settings = {0, 0, 0};
-	Shader* BatchRenderer::m_Shader = nullptr;
 
 
 
-	void BatchRenderer::Init(const BatchSettings& Settings)
+
+	BatchRenderer::BatchRenderer(const BatchSettings& Settings)
 	{
-
-
 		m_Settings = Settings;
 		m_Shader = new Shader("Source/Shaders/TexturedSquare.glsl");
 
-		
+		m_VerticesPtr = new Vertex[m_Settings.MaxQuads];
+		m_IndicesPtr = new unsigned int[m_Settings.MaxIndices];
+
 		{
 			int Texunits;
 			glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &Texunits);
@@ -38,7 +30,6 @@ namespace Yuzu
 
 			delete[] Samplers;
 		}
-
 		glGenVertexArrays(1, &m_VAO);
 		glGenBuffers(1, &m_VBO);
 		glGenBuffers(1, &m_EBO);
@@ -48,7 +39,7 @@ namespace Yuzu
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
 		glBufferData(GL_ARRAY_BUFFER, m_Settings.MaxQuads * sizeof(Vertex), NULL, GL_DYNAMIC_DRAW);
-		
+
 
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), 0);
@@ -65,56 +56,67 @@ namespace Yuzu
 		glEnableVertexAttribArray(2);
 		glEnableVertexAttribArray(3);
 
-		unsigned int* m_IndicesPtr = new unsigned int[m_Settings.MaxIndices];
 
-		unsigned int offset = 0;
-		for (unsigned int i = 0; i < m_Settings.MaxIndices; i += 6)
-		{
-			m_IndicesPtr[i + 0] =  0 + offset;
-			m_IndicesPtr[i + 1] =  1 + offset;
-			m_IndicesPtr[i + 2] =  2 + offset;
-			m_IndicesPtr[i + 3] =  1 + offset;
-			m_IndicesPtr[i + 4] =  2 + offset;
-			m_IndicesPtr[i + 5] =  3 + offset;
+		//unsigned int offset = 0;
+		//for (unsigned int i = 0; i < m_Settings.MaxIndices; i += 6)
+		//{
+		//	m_IndicesPtr[i + 0] = 0 + offset;
+		//	m_IndicesPtr[i + 1] = 1 + offset;
+		//	m_IndicesPtr[i + 2] = 2 + offset;
+		//	m_IndicesPtr[i + 3] = 1 + offset;
+		//	m_IndicesPtr[i + 4] = 2 + offset;
+		//	m_IndicesPtr[i + 5] = 3 + offset;
 
-			offset += 4;
-		}
-		
+		//	offset += 4;
+		//}
+
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Settings.MaxIndices * sizeof(unsigned int), m_IndicesPtr, GL_STATIC_DRAW);
-
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Settings.MaxIndices * sizeof(unsigned int), m_IndicesPtr, GL_DYNAMIC_DRAW);
 	}
 
-
-
-	void BatchRenderer::ShutDown()
+	BatchRenderer::~BatchRenderer()
 	{
 		glDeleteBuffers(1, &m_VBO);
 		glDeleteBuffers(1, &m_EBO);
 		glDeleteVertexArrays(1, &m_VAO);
 
 		delete[] m_IndicesPtr;
+		delete[] m_VerticesPtr;
 		delete m_Shader;
 	}
 
-	void BatchRenderer::InsertQuad(Vertex* NewVertices, unsigned int NumOfVertices)
+
+
+
+	void BatchRenderer::ChangeVertices(const VertexID& Location, Vertex* NewVertices, unsigned int* NewIndices)
 	{
-		YZ_PROFILE_FUNCTION();
-		if (m_VBO)
+		memcpy(Location.VertexPtr, NewVertices, Location.VerticesSize);
+		memcpy(Location.IndexPtr, NewIndices, Location.IndicesSize);
+
+	}
+	void BatchRenderer::ChangeVertices(const VertexID& Location, Vertex* NewVertices)
+	{
+		memcpy(Location.VertexPtr, NewVertices, Location.VerticesSize);
+
+	}
+
+	const VertexID BatchRenderer::InsertVertices(Vertex* NewVertices, unsigned int NumOfVertices, unsigned int* NewIndices, unsigned int NumOfIndices)
+	{
+		if ( ( (m_VerticesFilled + NumOfVertices) > m_Settings.MaxQuads) || (( m_IndicesFilled + NumOfIndices) > m_Settings.MaxIndices))
 		{
-			void* DataPtr = glMapBufferRange(GL_ARRAY_BUFFER, m_NumFilled * sizeof(Vertex), sizeof(Vertex) * NumOfVertices, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT);
-			DataPtr = reinterpret_cast<Vertex*>(DataPtr);
-			memcpy(DataPtr, NewVertices, NumOfVertices * sizeof(Vertex));
-
-			glUnmapBuffer(GL_ARRAY_BUFFER);
-
-
-			m_NumFilled += NumOfVertices;
+			YZC_CRITICAL("Too Many Vertices To Insert LINE:{0}, FILE:{1}", __LINE__, __FILE__);
+		}
+		else
+		{
+			memcpy(m_VerticesPtr + m_VerticesFilled, NewVertices, NumOfVertices * sizeof(Vertex));
+			memcpy(m_IndicesPtr + m_IndicesFilled, NewIndices, NumOfIndices * sizeof(unsigned int));
 		}
 
-
-
+		VertexID o_VertexID = { m_VerticesPtr + m_VerticesFilled, NumOfVertices * sizeof(Vertex), m_IndicesPtr + m_IndicesFilled, NumOfIndices * sizeof(unsigned int) };
+		m_VerticesFilled += NumOfVertices;
+		m_IndicesFilled += NumOfIndices;
+		return o_VertexID;
 	}
 
 	void BatchRenderer::CreateQuads(Vertex* Destination, const QuadSettings& Settings)
@@ -122,26 +124,37 @@ namespace Yuzu
 
 
 		
-		Destination[0].Position = { Settings.Posiition.x - Settings.Size, Settings.Posiition.y - Settings.Size, Settings.Posiition.z };
+		Destination[0].Position = { Settings.Position.x - Settings.Size, Settings.Position.y - Settings.Size, Settings.Position.z };
 		Destination[0].Color = Settings.Color;
 		Destination[0].TexCoord = glm::vec2(0.0f);
 		Destination[0].TexID = Settings.TexID;
 
-		Destination[1].Position = { Settings.Posiition.x - Settings.Size, Settings.Posiition.y + Settings.Size, Settings.Posiition.z };
+		Destination[1].Position = { Settings.Position.x - Settings.Size, Settings.Position.y + Settings.Size, Settings.Position.z };
 		Destination[1].Color = Settings.Color;
 		Destination[1].TexCoord = glm::vec2(0.0f, 1.0f);
 		Destination[1].TexID = Settings.TexID;
 
-		Destination[2].Position = { Settings.Posiition.x + Settings.Size, Settings.Posiition.y - Settings.Size, Settings.Posiition.z };
+		Destination[2].Position = { Settings.Position.x + Settings.Size, Settings.Position.y - Settings.Size, Settings.Position.z };
 		Destination[2].Color = Settings.Color;
 		Destination[2].TexCoord = glm::vec2(1.0f, 0.0f);
 		Destination[2].TexID = Settings.TexID;
 
 
-		Destination[3].Position = { Settings.Posiition.x + Settings.Size, Settings.Posiition.y + Settings.Size, Settings.Posiition.z };
+		Destination[3].Position = { Settings.Position.x + Settings.Size, Settings.Position.y + Settings.Size, Settings.Position.z };
 		Destination[3].Color = Settings.Color;
 		Destination[3].TexCoord = glm::vec2(1.0f);
 		Destination[3].TexID = Settings.TexID;
+	}
+
+	void BatchRenderer::Flush()
+	{
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, m_VerticesFilled * sizeof(Vertex), m_VerticesPtr);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, m_IndicesFilled * sizeof(unsigned int), m_IndicesPtr);
+
 	}
 
 	void BatchRenderer::InsertTexture(Sptr<Yuzu::Texture> NewTexture, int TextureLocation)
@@ -153,7 +166,7 @@ namespace Yuzu
 	}
 
 
-	void BatchRenderer::RenderBatch()
+	void BatchRenderer::RenderBatch() const
 	{
 		m_Shader->Bind();
 		glBindVertexArray(m_VAO);

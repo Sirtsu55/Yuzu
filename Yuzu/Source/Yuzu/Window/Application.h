@@ -10,6 +10,8 @@ namespace Yuzu
 		virtual ~Application();
 
 		virtual void Run();
+		virtual void OnUpdate(float DeltaTime);
+
 
 	private:
 

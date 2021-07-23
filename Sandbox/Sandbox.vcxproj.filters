@@ -24,4 +24,9 @@
     <None Include="Source\Shaders\Square.glsl" />
     <None Include="Source\Shaders\TexturedSquare.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\SandboxApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

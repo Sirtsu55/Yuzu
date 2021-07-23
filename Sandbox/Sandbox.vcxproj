@@ -157,6 +157,9 @@
     <None Include="Source\Shaders\TexturedSquare.glsl" />
     <None Include="Source\Shaders\Triangle.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\SandboxApplication.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

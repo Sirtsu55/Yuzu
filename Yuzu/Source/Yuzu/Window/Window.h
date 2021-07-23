@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
+#include "Application.h"
+
 
 namespace Yuzu
 {
@@ -14,6 +16,8 @@ namespace Yuzu
 
 		void MainLoop();
 		void Terminate();
+		void SetApplication(Application* App);
+
 		void SetResolution(int x, int y);
 		void HandleScroll(double yoffset);
 		bool WindowShouldClose() { return glfwWindowShouldClose(m_window); }
@@ -29,6 +33,7 @@ namespace Yuzu
 
 		GLFWwindow* m_window;
 		std::string m_name;
+		Application* m_App;
 
 
 

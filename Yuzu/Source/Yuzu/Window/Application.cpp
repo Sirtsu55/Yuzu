@@ -20,6 +20,10 @@ namespace Yuzu
 		
 	}
 
+	void Application::OnUpdate(float DeltaTime)
+	{
+	}
+
 
 
 }

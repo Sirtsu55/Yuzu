@@ -193,7 +193,7 @@
     <ClInclude Include="Source\Yuzu\Timer\SimpleTimer.h" />
     <ClInclude Include="Source\Yuzu\Timer\Timers.h" />
     <ClInclude Include="Source\Yuzu\Window\Window.h" />
-    <ClInclude Include="Source\Yuzu\Application\Application.h" />
+    <ClInclude Include="Source\Yuzu\Window\Application.h" />
     <ClInclude Include="Source\Yuzu\World\Camera.h" />
     <ClInclude Include="Source\Yuzu.h" />
     <ClInclude Include="Source\Yuzu\Timer\TimerWriter.h" />
@@ -466,7 +466,7 @@
     <ClCompile Include="Source\Yuzu\Timer\ScopedTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Log\Logger.cpp" />
     <ClCompile Include="Source\Yuzu\Rendering\Renderer\BatchRenderer.cpp" />
-    <ClCompile Include="Source\Yuzu\Application\Application.cpp" />
+    <ClCompile Include="Source\Yuzu\Window\Application.cpp" />
     <ClCompile Include="Source\Yuzu\Core.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

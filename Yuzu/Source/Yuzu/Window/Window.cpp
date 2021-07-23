@@ -120,11 +120,10 @@ namespace Yuzu
 	//	-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.25f, 1.0f,
 	//};
 
-	unsigned char indices[] = { 0, 1, 2, 1, 2, 3, 4, 5, 6, 5, 6, 7 };
+	unsigned int* indices = new unsigned int[12] { 0, 1, 2, 1, 2, 3, 4, 5, 6, 5, 6, 7 };
 
 	void Window::MainLoop()
 	{
-		YZ_PROFILE_FUNCTION();
 
 		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
 
@@ -175,24 +174,33 @@ namespace Yuzu
 		Settings.MaxQuads = 2000;
 		Settings.m_ShaderPath = "Source/Shaders/TexturedSquare.glsl";
 
-		BatchRenderer::Init(Settings);
+		BatchRenderer* MyBatch = new BatchRenderer(Settings);
+		
 		Sptr<Texture> Tex1 = std::make_shared<Texture>("Resources/smiley.png");
+		Sptr<Texture> Tex2 = std::make_shared<Texture>("Resources/cherno.png");
 
-		BatchRenderer::InsertTexture(Tex1, 0);
+		MyBatch->InsertTexture(Tex1, 0);
+		MyBatch->InsertTexture(Tex2, 1);
 
-		for (unsigned int j = 0; j < 10; j++)
-		{
-			Vertex* MyQuads = new Vertex[100];
 
-			for (unsigned int i = 0; i < 100; i += 4)
-			{
-				QuadSettings quad_s = { glm::vec3((i / 2),(float)j * 2, 1.0f), 0.0f, 1.0f };
-				BatchRenderer::CreateQuads(MyQuads + i, quad_s);
-			}
-			BatchRenderer::InsertQuad(MyQuads, 20);
-			delete[] MyQuads;
-		}
-		glm::vec3 QuadPos(0.0f);
+
+		Vertex* QuadLoc = new Vertex[8];
+
+		QuadSettings Quad1settings = { glm::vec3(0.0f), 0.0f, 1.0f };
+		QuadSettings Quad2settings = { glm::vec3(0.0f), 1.1f, 1.0f };
+
+		BatchRenderer::CreateQuads(QuadLoc, Quad1settings);
+		BatchRenderer::CreateQuads(QuadLoc + 4, Quad2settings);
+
+		VertexID Quad1 = MyBatch->InsertVertices(QuadLoc, 4, indices, 6);
+		VertexID Quad2 = MyBatch->InsertVertices(QuadLoc + 4, 4, indices + 6, 6);
+
+		MyBatch->Flush();
+
+
+
+		glm::vec3 Quad1Pos(1.0f, 0.0f, 0.0f);
+		glm::vec3 Quad2Pos(0.0f);
 
 
 
@@ -202,16 +210,23 @@ namespace Yuzu
 
 		while (!glfwWindowShouldClose(m_window))
 		{
-			YZ_PROFILE_FUNCTION("FrameTime");
+			YZ_PROFILE("FrameTime");
 
 			FrameTimer.Start();
 			StartFrame();
 			renderer.Clear();
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-		
+			Quad1settings.Position = Quad1Pos;
+			Quad2settings.Position = Quad2Pos;
 
-			BatchRenderer::RenderBatch();
+			BatchRenderer::CreateQuads(QuadLoc, Quad1settings);
+			BatchRenderer::CreateQuads(QuadLoc + 4, Quad2settings);
+
+			MyBatch->ChangeVertices(Quad1, QuadLoc);
+			MyBatch->ChangeVertices(Quad2, QuadLoc + 4);
+			MyBatch->Flush();
+			MyBatch->RenderBatch();
 
 			{
 				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMouseInputs;
@@ -229,9 +244,12 @@ namespace Yuzu
 			}
 			{
 
-				ImGui::Begin("QuadPos");
-				ImGui::DragFloat3("Pos", glm::value_ptr(QuadPos), 0.005f);
+				ImGui::Begin("Quad1Pos");
+				ImGui::DragFloat3("Pos1", glm::value_ptr(Quad1Pos), 0.005f);
+				ImGui::DragFloat3("Pos2", glm::value_ptr(Quad2Pos), 0.005f);
 				ImGui::End();
+
+
 			}
 
 			ImGui::Render();
@@ -245,7 +263,7 @@ namespace Yuzu
 
 			FrameTime = static_cast<float>(FrameTimer.End(TimerAccuracy::Seconds));
 		}
-		BatchRenderer::ShutDown();
+		delete MyBatch;
 	}
 
 
@@ -334,6 +352,14 @@ namespace Yuzu
 		glfwTerminate();
 
 	}
+
+	void Window::SetApplication(Application* App)
+	{
+		m_App = App;
+		m_App->OnUpdate(1.0f);
+
+	}
+
 
 	void Window::SetResolution(int x, int y)
 	{

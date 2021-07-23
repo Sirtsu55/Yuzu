@@ -54,7 +54,7 @@
 
 #define PROFILING 1
 #if PROFILING
-	#define YZ_PROFILE_FUNCTION(Name) Yuzu::ScopedTimer Timer##__LINE__(Name)
+	#define YZ_PROFILE(Name) Yuzu::ScopedTimer Timer##__LINE__(Name)
 	#define YZ_PROFILE_FUNCTION() Yuzu::ScopedTimer Timer##__LINE__(__FUNCTION__)
 	#define YZ_PROFILE_FUNCTION_SIG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCSIG__)
 
@@ -73,7 +73,7 @@
 
 
 
-#define DEBUG_LEVEL 4
+#define DEBUG_LEVEL 3
 
 
 #if DEBUG_LEVEL > 0

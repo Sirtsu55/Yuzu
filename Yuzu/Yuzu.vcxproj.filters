@@ -555,7 +555,7 @@
     <ClInclude Include="Source\Yuzu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\Application\Application.h">
+    <ClInclude Include="Source\Yuzu\Window\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Yuzu\Timer\SimpleTimer.h">
@@ -920,7 +920,7 @@
     <ClCompile Include="Source\Yuzu\World\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Yuzu\Application\Application.cpp">
+    <ClCompile Include="Source\Yuzu\Window\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Yuzu\Timer\SimpleTimer.cpp">
