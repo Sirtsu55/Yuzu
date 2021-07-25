@@ -128,45 +128,6 @@ namespace Yuzu
 		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
 
 		cam.Activate();
-
-		//Yuzu::VertexArray vao;
-
-
-		//vao.Bind();
-		//Yuzu::Shader shader("Source/Shaders/TexturedSquare.glsl");
-
-
-		//Yuzu::VertexBuffer vb(NULL, sizeof(Vertex) * 500, GL_DYNAMIC_DRAW);
-
-		//vb.Bind();
-
-
-		//Yuzu::VertexBufferLayout layout;
-		//layout.Push<float>(3);
-		//layout.Push<float>(4);
-		//layout.Push<float>(2);
-		//layout.Push<float>(1);
-
-
-		//vao.AddBuffer(vb, layout);
-		//Yuzu::ElementBuffer ebo(indices, 12, GL_STATIC_DRAW, GL_UNSIGNED_BYTE);
-
-
-		//glm::mat4 ModelMat(1.0f), ViewProjMat(1.0f);
-		//ViewProjMat = Yuzu::Camera::GetCurrentCamera()->GetViewProjectionMatrix();
-		//glm::mat4 MVP = ViewProjMat * ModelMat;
-
-		//shader.Bind();
-
-		//shader.SetMat4("MVPMatrix", MVP);
-
-		//Sptr<Yuzu::Texture> tex1 = std::make_shared<Yuzu::Texture>("Resources/smiley.png");
-
-		//shader.SetInt("Image1", 0);
-
-		//shader.InsertTexture(tex1.get(), 0);
-
-
 		Yuzu::Renderer renderer;
 
 		BatchSettings Settings;

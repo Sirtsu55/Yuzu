@@ -461,6 +461,7 @@
     <ClInclude Include="Vendor\spdlog\tweakme.h" />
     <ClInclude Include="Vendor\spdlog\version.h" />
     <ClInclude Include="Vendor\stb\stb_image.h" />
+    <ClInclude Include="Source\Yuzu\World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Yuzu\Timer\ScopedTimer.cpp" />
@@ -510,6 +511,7 @@
     <ClCompile Include="Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Vendor\stb\stb_image.cpp" />
+    <ClCompile Include="Source\Yuzu\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Vendor\glm\detail\func_common.inl" />
