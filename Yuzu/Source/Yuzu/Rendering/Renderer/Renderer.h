@@ -1,31 +1,55 @@
 #pragma once
-#include "Rendering/Objects/VertexArray.h"
-#include "Rendering/Objects/ElementBuffer.h"
-#include "Rendering/Objects/Shader.h"
-
+#include "Yuzu/Rendering/Objects/VertexArray.h"
+#include "Yuzu/Rendering/Objects/ElementBuffer.h"
+#include "Yuzu/Rendering/Objects/Shader.h"
+#include "Yuzu/World/Components/Components.h"
 
 
 namespace Yuzu
 {
 
-	struct Vertex
+
+	class Renderer2D
 	{
-		glm::vec3 Position;
-		glm::vec4 Color;
-		glm::vec2 TexCoord;
-		float TexID;
-	};
-	class Renderer
-	{
+	public:
+		struct DefaultPrimitive
+		{
+			Sptr<Shader> Shader;
+			Uptr<VertexBuffer> VBO;
+			Uptr<ElementBuffer> EBO;
+			Uptr<VertexArray> VAO;
+
+		};
+
+		struct DefaultTexturedQuad
+		{
+			Uptr<VertexBuffer> VBO;
+			Uptr<ElementBuffer> EBO;
+			Uptr<VertexArray> VAO;
+		};
+
+
+	private:
+		Renderer2D() = default;
+		~Renderer2D() = default;
+
+		static Sptr<Shader> Basic2DShader;
+		static DefaultPrimitive Square;
+		static DefaultPrimitive Triangle;
+		static DefaultTexturedQuad TexturedSquare;
 
 	public:
-		Renderer() = default;
-		~Renderer() = default;
+		static void InitializeDefaults();
 
 
-		void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::Shader& Shader) const;
-		void Clear() const;
+		static void DrawSprite(TransformComponent Transform, SpriteComponent Sprite);
+		static void DrawSprite(TransformComponent Transform, TexturedSpriteComponent Sprite);
 
+		static void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::Shader& Shader);
+		static void Clear();
+
+
+		
 	};
 
 

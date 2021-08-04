@@ -8,6 +8,7 @@ namespace Yuzu
 
 	public:
 
+		VertexBuffer() = default;
 		~VertexBuffer();
 
 		VertexBuffer(void* data, unsigned int size, GLenum Usage);

@@ -7,10 +7,21 @@
 namespace Yuzu
 {
 
+	struct WindowInitSettings
+	{
+		std::string WindowName;
+		int WindowHeight;
+		int WindowWidth;
+		glm::vec4 BackgroundColor;
+
+		glm::vec2 AspectRatio = { 16 , 9 };
+
+	};
+
 	class Window
 	{
 	public:
-		Window(const std::string& name, int width, int height, int MajorVersion, int MinorVersion);
+		Window(const WindowInitSettings& Settings);
 		~Window();
 
 
@@ -23,21 +34,22 @@ namespace Yuzu
 		bool WindowShouldClose() { return glfwWindowShouldClose(m_window); }
 		
 		
+		inline void RenderImgui();
+
 		static int Width;
 		static int Height;
 		static float AspectRatio;
-
 		static float FrameTime;
 
 	private:
 
 		GLFWwindow* m_window;
-		std::string m_name;
 		Application* m_App;
+		WindowInitSettings m_Settings;
 
 
 
-		void StartFrame();
+		void ImguiStartFrame();
 		void SwapBuffers();
 		void HandleInput();
 		void HandleMouse();

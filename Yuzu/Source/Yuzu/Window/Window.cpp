@@ -1,5 +1,6 @@
 ﻿#include "Core.h"
 
+#include "InputListener.h"
 #include "Window.h"
 #include "Rendering/Objects/Shader.h"
 #include "Rendering/Objects/VertexArray.h"
@@ -18,7 +19,7 @@ namespace Yuzu
 {
 	int Window::Width;
 	int Window::Height;
-	float Window::FrameTime;
+	float Window::FrameTime = 0.0f;
 	float Window::AspectRatio = 16 / 9;
 
 
@@ -49,28 +50,30 @@ namespace Yuzu
 
 
 
-	Window::Window(const std::string& name, int width, int height, int MajorVersion, int MinorVersion)
-		: m_name(name)
+	Window::Window(const WindowInitSettings& Settings)
+		: m_Settings(Settings)
 	{
-		Width = width;
-		Height = height;
+		Width = Settings.WindowWidth;
+		Height = Settings.WindowHeight;
 		if (!glfwInit())
 		{
 			YZC_CRITICAL("GLFW not initialized");
 			throw "GLFW Failed to initialize";
 		}
 
-		const char* glsl_version = "#version 450";
+	
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MajorVersion);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MinorVersion);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		
 
-		m_window = glfwCreateWindow(Width, Height, m_name.c_str(), NULL, NULL);
+		m_window = glfwCreateWindow(Width, Height, Settings.WindowName.c_str() , NULL, NULL);
 
-		glfwSetWindowAspectRatio(m_window, 16, 9);
+
+		
+		glfwSetWindowAspectRatio(m_window, (int)m_Settings.AspectRatio.x, (int)m_Settings.AspectRatio.y);
 
 
 		glfwMakeContextCurrent(m_window);
@@ -97,8 +100,8 @@ namespace Yuzu
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
-
+		InputListener::SetListeningWindow(m_window);
+		
 
 	}
 
@@ -106,132 +109,50 @@ namespace Yuzu
 	{
 	}
 
-	//float* vertices = new float[]
-	//{
 
-	//	-1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-	//	-1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-	//	 1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-	//	 1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-
-	//	-2.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.25f, 1.0f,
-	//	-2.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.25f, 1.0f,
-	//	-1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 0.25f, 1.0f,
-	//	-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.25f, 1.0f,
-	//};
 
 	unsigned int* indices = new unsigned int[12] { 0, 1, 2, 1, 2, 3, 4, 5, 6, 5, 6, 7 };
 
 	void Window::MainLoop()
 	{
 
-		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
-
-		cam.Activate();
-		Yuzu::Renderer renderer;
-
-		BatchSettings Settings;
-		Settings.MaxIndices = 1000;
-		Settings.MaxQuads = 2000;
-		Settings.m_ShaderPath = "Source/Shaders/TexturedSquare.glsl";
-
-		BatchRenderer* MyBatch = new BatchRenderer(Settings);
-		
-		Sptr<Texture> Tex1 = std::make_shared<Texture>("Resources/smiley.png");
-		Sptr<Texture> Tex2 = std::make_shared<Texture>("Resources/cherno.png");
-
-		MyBatch->InsertTexture(Tex1, 0);
-		MyBatch->InsertTexture(Tex2, 1);
-
-
-
-		Vertex* QuadLoc = new Vertex[8];
-
-		QuadSettings Quad1settings = { glm::vec3(0.0f), 0.0f, 1.0f };
-		QuadSettings Quad2settings = { glm::vec3(0.0f), 1.1f, 1.0f };
-
-		BatchRenderer::CreateQuads(QuadLoc, Quad1settings);
-		BatchRenderer::CreateQuads(QuadLoc + 4, Quad2settings);
-
-		VertexID Quad1 = MyBatch->InsertVertices(QuadLoc, 4, indices, 6);
-		VertexID Quad2 = MyBatch->InsertVertices(QuadLoc + 4, 4, indices + 6, 6);
-
-		MyBatch->Flush();
-
-
-
-		glm::vec3 Quad1Pos(1.0f, 0.0f, 0.0f);
-		glm::vec3 Quad2Pos(0.0f);
-
-
-
 		Yuzu::SimpleTimer FrameTimer;
-
-
+		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
+		cam.Activate();
 
 		while (!glfwWindowShouldClose(m_window))
 		{
 			YZ_PROFILE("FrameTime");
 
+
+
 			FrameTimer.Start();
-			StartFrame();
-			renderer.Clear();
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-			Quad1settings.Position = Quad1Pos;
-			Quad2settings.Position = Quad2Pos;
-
-			BatchRenderer::CreateQuads(QuadLoc, Quad1settings);
-			BatchRenderer::CreateQuads(QuadLoc + 4, Quad2settings);
-
-			MyBatch->ChangeVertices(Quad1, QuadLoc);
-			MyBatch->ChangeVertices(Quad2, QuadLoc + 4);
-			MyBatch->Flush();
-			MyBatch->RenderBatch();
-
-			{
-				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMouseInputs;
-
-				glm::vec3 CamLoc = Camera::GetCurrentCamera()->GetLocation();
-				ImGui::SetNextWindowBgAlpha(0.0f);
-				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+			ImguiStartFrame();
+			Renderer2D::Clear();
+			glClearColor(m_Settings.BackgroundColor.x , m_Settings.BackgroundColor.y, m_Settings.BackgroundColor.z, m_Settings.BackgroundColor.w);
 
 
-				ImGui::Begin(" ", 0, window_flags);
-				ImGui::Text("Camera", CamLoc.x, CamLoc.y, CamLoc.z);
-				ImGui::Text("X: %f	Y: %f	Z: %f", CamLoc.x, CamLoc.y, CamLoc.z);
-				ImGui::End();
-
-			}
-			{
-
-				ImGui::Begin("Quad1Pos");
-				ImGui::DragFloat3("Pos1", glm::value_ptr(Quad1Pos), 0.005f);
-				ImGui::DragFloat3("Pos2", glm::value_ptr(Quad2Pos), 0.005f);
-				ImGui::End();
+			m_App->OnUpdate(FrameTime);
 
 
-			}
-
-			ImGui::Render();
+			m_App->OnWidgetRender(FrameTime);
 
 
-
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+			RenderImgui();
 			SwapBuffers();
 			HandleInput();
 
+
 			FrameTime = static_cast<float>(FrameTimer.End(TimerAccuracy::Seconds));
 		}
-		delete MyBatch;
+	
 	}
 
 
 
 
 
-	void Window::StartFrame()
+	void Window::ImguiStartFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -304,6 +225,11 @@ namespace Yuzu
 			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Back, FrameTime);
 		}
 	}
+	inline void Window::RenderImgui()
+	{
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
 	void Window::Terminate()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
@@ -317,7 +243,6 @@ namespace Yuzu
 	void Window::SetApplication(Application* App)
 	{
 		m_App = App;
-		m_App->OnUpdate(1.0f);
 
 	}
 

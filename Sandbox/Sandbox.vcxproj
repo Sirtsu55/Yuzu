@@ -147,7 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\MyEntity.cpp" />
     <ClCompile Include="Source\SandboxApplicaton.cpp" />
+    <ClCompile Include="Source\Square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yuzu\Yuzu.vcxproj">
@@ -155,12 +157,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Shaders\Square.glsl" />
-    <None Include="Source\Shaders\TexturedSquare.glsl" />
-    <None Include="Source\Shaders\Triangle.glsl" />
+    <None Include="Resources\Shaders\TexturedBasic2D.glsl" />
+    <None Include="Resources\Shaders\Basic2D.glsl" />
+    <None Include="Resources\Shaders\Square.glsl" />
+    <None Include="Resources\Shaders\TexturedSquare.glsl" />
+    <None Include="Resources\Shaders\Triangle.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\MyEntity.h" />
     <ClInclude Include="Source\SandboxApplication.h" />
+    <ClInclude Include="Source\Square.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

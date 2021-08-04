@@ -43,7 +43,7 @@ uniform sampler2D Textures[32];
 
 void main()
 {
-	int TexID = int(TexID);
-	FragColor = texture(Textures[TexID], TexCoord);
+	
+	FragColor = VertCol;
 
 }

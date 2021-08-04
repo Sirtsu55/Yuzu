@@ -1,11 +1,20 @@
 #pragma once
-#include "Rendering/Objects/Shader.h"
-#include "Renderer.h"
+#include "Yuzu/Rendering/Objects/Shader.h"
 
 
 namespace Yuzu
 {
+	struct Vertex
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+		glm::vec2 TexCoord;
+		float TexID;
+	};
+	
+	
 
+	
 	struct BatchSettings
 	{
 		unsigned int MaxQuads;
@@ -30,9 +39,10 @@ namespace Yuzu
 		float TexID;
 		float Size;
 		glm::vec4 Color = glm::vec4(0.0f);
+
 	};
 
-	class BatchRenderer
+	class BatchRenderer2D
 	{
 
 	private:
@@ -51,16 +61,18 @@ namespace Yuzu
 
 		unsigned int m_VerticesFilled;
 		unsigned int m_IndicesFilled;
-
+		unsigned int m_IndicesOffset = 0;
 
 	public:
-		BatchRenderer(const BatchSettings& Settings);
-		~BatchRenderer();
+		BatchRenderer2D() = default;
+		BatchRenderer2D(const BatchSettings& Settings);
+		~BatchRenderer2D();
 		
 		void RenderBatch() const;
 	
 		
 		const VertexID InsertVertices(Vertex* NewVertices, unsigned int NumOfVertices, unsigned int* NewIndices, unsigned int NumOfIndices);
+
 		
 		
 		/// Change Vertices and also Indices
@@ -69,16 +81,19 @@ namespace Yuzu
 		/// Change Vertices only
 		void ChangeVertices(const VertexID& Location, Vertex* NewVertices);
 
-
+		void ChangeColor(const VertexID& Location, const glm::vec4& NewColor);
+	
 		void InsertTexture(Sptr<Yuzu::Texture> NewTexture, int TextureLocation);
 
 		static void CreateQuads(Vertex* Destination, const QuadSettings& Settings);
+
+		void CreateIndices(unsigned int* Destination, const unsigned int* IndicesLayout, unsigned int NumOfIndices, unsigned int MaxIndex);
 
 		void Flush();
 
 	};
 
 
-
+	
 
 }

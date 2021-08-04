@@ -34,9 +34,8 @@ namespace Yuzu
 
 		}
 
-
-
 	}
+	
 
 	void VertexArray::Bind() const
 	{

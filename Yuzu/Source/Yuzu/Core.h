@@ -9,6 +9,8 @@
 #include <thread>
 #include <chrono>
 #include <thread>
+#include <tuple>
+#include <optional>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -24,9 +26,54 @@
 #include "Log/Logger.h"
 #include "Timer/Timers.h"
 
+#include "Rendering/Objects/ElementBuffer.h"
+#include "Rendering/Objects/Shader.h"
+#include "Rendering/Objects/Texture.h"
+
+
 #ifndef MACROS_SETUP
 
 #define MACROS_SETUP
+
+
+
+//---------------------------------------
+//Shared Pointers
+//---------------------------------------
+
+template<typename T>
+using Sptr = std::shared_ptr<T>;
+
+template<typename T, typename ... Args>
+constexpr Sptr<T> CreateSptr(Args&& ... args)
+{
+	return std::make_shared<T>(std::forward<Args>(args)...);
+}
+
+//---------------------------------------
+//Weak Pointer
+//---------------------------------------
+
+template<typename T>
+using Wkptr = std::weak_ptr<T>;
+
+
+//---------------------------------------
+//Unique Pointers
+//---------------------------------------
+
+template<typename T>
+using Uptr = std::unique_ptr<T>;
+
+template<typename T, typename ... Args>
+constexpr Uptr<T> CreateUptr(Args&& ... args)
+{
+	return std::make_unique<T>(std::forward<Args>(args)...);
+}
+
+//---------------------------------------
+//Logging
+//---------------------------------------
 
 #define LOG 1
 
@@ -50,7 +97,9 @@
 #endif // LOG
 
 
-
+//---------------------------------------
+//Profiling
+//---------------------------------------
 
 #define PROFILING 1
 #if PROFILING
@@ -60,7 +109,7 @@
 
 #else
 
-	#define YZ_PROFILE_FUNCTION(Name)
+	#define YZ_PROFILE(Name)
 	#define YZ_PROFILE_FUNCTION()
 	#define YZ_PROFILE_FUNCTION_SIG()
 
@@ -112,6 +161,8 @@ static void GLAPIENTRY OpenGLErrorCallback(GLenum source​, GLenum type​, GLu
 }
 
 
+
+
 #endif // DEBUG_LEVEL != 0
 
 #endif // !MACROS_SETUP
@@ -120,9 +171,3 @@ static void GLAPIENTRY OpenGLErrorCallback(GLenum source​, GLenum type​, GLu
 //---------------------------------------
 
 
-template<typename T>
-using Sptr = std::shared_ptr<T>;
-
-
-template<typename T>
-using Uptr = std::shared_ptr<T>;

@@ -18,14 +18,28 @@
     <ClCompile Include="Source\SandboxApplicaton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MyEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Shaders\Triangle.glsl" />
-    <None Include="Source\Shaders\Square.glsl" />
-    <None Include="Source\Shaders\TexturedSquare.glsl" />
+    <None Include="Resources\Shaders\Triangle.glsl" />
+    <None Include="Resources\Shaders\Square.glsl" />
+    <None Include="Resources\Shaders\TexturedSquare.glsl" />
+    <None Include="Resources\Shaders\Basic2D.glsl" />
+    <None Include="Resources\Shaders\TexturedBasic2D.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\SandboxApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Square.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MyEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

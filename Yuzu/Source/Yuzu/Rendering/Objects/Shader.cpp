@@ -70,7 +70,7 @@ namespace Yuzu
         return loc;
     }
 
-    void Shader::InsertTexture(Yuzu::Texture* NewTex, unsigned char slot)
+    void Shader::InsertTexture(Sptr<Texture> NewTex, unsigned char slot)
     {
         m_TextureMap[slot] = NewTex;
     }

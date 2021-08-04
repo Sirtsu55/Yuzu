@@ -30,8 +30,8 @@ namespace Yuzu
 		std::chrono::steady_clock::time_point StartTime;
 		std::chrono::steady_clock::time_point EndTime;
 	};
-	static double GetElapsedSeconds();
-	static double GetElapsedSeconds(TimerAccuracy acc);
+	double GetElapsedSeconds();
+	double GetElapsedSeconds(TimerAccuracy acc);
 }
 
 

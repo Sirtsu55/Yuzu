@@ -17,10 +17,17 @@ namespace Yuzu
 
 	void Application::Run()
 	{
-		
 	}
 
 	void Application::OnUpdate(float DeltaTime)
+	{
+	}
+
+	void Application::OnWidgetRender(float Deltatime)
+	{
+	}
+
+	void Application::OnDestroy()
 	{
 	}
 

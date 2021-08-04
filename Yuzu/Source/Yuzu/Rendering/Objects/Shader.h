@@ -27,7 +27,7 @@ namespace Yuzu
 		unsigned int CompileShader(unsigned int type, const std::string& source);
 
 		mutable std::unordered_map<std::string, int> m_UniformMap;
-		std::unordered_map<unsigned char, Yuzu::Texture*> m_TextureMap;
+		std::unordered_map<unsigned char, Sptr<Yuzu::Texture>> m_TextureMap;
 
 
 
@@ -45,7 +45,7 @@ namespace Yuzu
 		void SetMat4(const char* name, const glm::mat4& matrix) const;
 		int GetUniformLocation(const char* name) const;
 
-		void InsertTexture(Yuzu::Texture* NewTex, unsigned char slot);
+		void InsertTexture(Sptr<Texture> NewTex, unsigned char slot);
 	};
 
 }

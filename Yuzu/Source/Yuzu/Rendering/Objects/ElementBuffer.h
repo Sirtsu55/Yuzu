@@ -14,6 +14,7 @@ namespace Yuzu
 
 	public:
 		ElementBuffer(void* indices, unsigned int count, unsigned int usage, GLenum datatype);
+		ElementBuffer() = default;
 		~ElementBuffer();
 		void Bind() const;
 		GLenum GetDataType() const { return m_DataType; }
