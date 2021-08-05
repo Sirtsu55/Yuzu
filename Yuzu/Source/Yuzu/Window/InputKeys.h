@@ -121,27 +121,24 @@ namespace Yuzu {
 		RightControl = GLFW_KEY_RIGHT_CONTROL,
 		RightAlt = GLFW_KEY_RIGHT_ALT,
 		RightSuper = GLFW_KEY_RIGHT_SUPER,
-		Menu = GLFW_KEY_MENU
+		Menu = GLFW_KEY_MENU,
 
+
+		MouseButtonLast = GLFW_MOUSE_BUTTON_8,
+		MouseButtonLeft = GLFW_MOUSE_BUTTON_1,
+		MouseButtonRight = GLFW_MOUSE_BUTTON_2,
+		MouseButtonMiddle = GLFW_MOUSE_BUTTON_3,
+		MouseButton1 = GLFW_MOUSE_BUTTON_1,
+		MouseButton2 = GLFW_MOUSE_BUTTON_2,
+		MouseButton3 = GLFW_MOUSE_BUTTON_3,
+		MouseButton4 = GLFW_MOUSE_BUTTON_4,
+		MouseButton5 = GLFW_MOUSE_BUTTON_5,
+		MouseButton6 = GLFW_MOUSE_BUTTON_6,
+		MouseButton7 = GLFW_MOUSE_BUTTON_7,
+		MouseButton8 = GLFW_MOUSE_BUTTON_8
 	};
 	
 
-	enum class MouseButton
-	{
-		ButtonLast = GLFW_MOUSE_BUTTON_8,
-		ButtonLeft = GLFW_MOUSE_BUTTON_1,
-		ButtonRight = GLFW_MOUSE_BUTTON_2,
-		ButtonMiddle = GLFW_MOUSE_BUTTON_3,
-		Button1 = GLFW_MOUSE_BUTTON_1,
-		Button2 = GLFW_MOUSE_BUTTON_2,
-		Button3 = GLFW_MOUSE_BUTTON_3,
-		Button4 = GLFW_MOUSE_BUTTON_4,
-		Button5 = GLFW_MOUSE_BUTTON_5,
-		Button6 = GLFW_MOUSE_BUTTON_6,
-		Button7 = GLFW_MOUSE_BUTTON_7,
-		Button8 = GLFW_MOUSE_BUTTON_8
-
-	};
 	enum class KeyState
 	{
 		Pressed = GLFW_PRESS,

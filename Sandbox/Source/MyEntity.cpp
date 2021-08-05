@@ -12,11 +12,16 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	TexComp.InsertTexture(Tex, 0);
 
 	AddComponent<Yuzu::TickComponent>(this);
-	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this);
+	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
 
 	
 	Inputs.AddKeybind(Yuzu::InputKey::W, Entity_Function(MyEntity::OnWPressed));
-	Inputs.AddMouseBind(Yuzu::MouseButton::ButtonLeft, Entity_Function(MyEntity::Clicked));
+	Inputs.AddKeybind(Yuzu::InputKey::MouseButtonLeft, Entity_Function(MyEntity::Clicked));
+}
+
+void* operator new(size_t size)
+{
+	return malloc(size);
 }
 
 void MyEntity::Update(float DeltaTime)
@@ -28,8 +33,12 @@ void MyEntity::Update(float DeltaTime)
 void MyEntity::OnWPressed()
 {
 }
+
+
 void MyEntity::Clicked()
 {
+	YZA_CRITICAL("RIGHT CLICK");
+
 }
 
 

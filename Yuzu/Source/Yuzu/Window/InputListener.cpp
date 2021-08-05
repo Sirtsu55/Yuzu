@@ -6,54 +6,47 @@ static void cursor_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	Yuzu::InputListener::UpdateCursor(&xpos, &ypos);
 }
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	Yuzu::InputListener::UpdateKey((Yuzu::InputKey)button, (Yuzu::KeyState)action);
+}
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	Yuzu::InputListener::UpdateKey((Yuzu::InputKey)key, (Yuzu::KeyState)action);
+}
 
 namespace Yuzu
 {
 
 	GLFWwindow* InputListener::s_ListeningWindow;
 	std::unordered_map<InputKey, KeyState> InputListener::s_KeyBinds;
-	std::unordered_map<MouseButton, KeyState> InputListener::s_MouseBinds;
 	glm::dvec2 InputListener::s_MousePos;
 
 	void InputListener::AddListeningKey(InputKey key)
 	{
 		s_KeyBinds[key] = KeyState::Released;
 	}
-	void InputListener::AddListeningMouseKey(MouseButton key)
-	{
-		s_MouseBinds[key] = KeyState::Released;
-	}
-	void InputListener::SetListeningWindow(GLFWwindow* window)
+
+	void InputListener::SetListeningWindow(GLFWwindow* window, int MinNumOfInputs)
 	{
 		s_KeyBinds.clear();
-		s_MouseBinds.clear();
+		s_KeyBinds.reserve(MinNumOfInputs);
 		s_ListeningWindow = window;
+		glfwSetKeyCallback(s_ListeningWindow, key_callback);
+		glfwSetMouseButtonCallback(s_ListeningWindow, mouse_button_callback);
 		glfwSetCursorPosCallback(s_ListeningWindow, cursor_callback);
 	}
 
-	void InputListener::UpdateKeys()
-	{
-		for (auto& [Key, IsPressed] : s_KeyBinds)
-		{
-			s_KeyBinds[Key] = (KeyState)glfwGetKey(s_ListeningWindow, (int)Key);
-
-		}
-		for (auto& [MouseKey, MouseIsPressed] : s_MouseBinds)
-		{
-			s_MouseBinds[MouseKey] = (KeyState)glfwGetMouseButton(s_ListeningWindow, (int)MouseKey);
-
-		}
-
-	}
 
 	std::unordered_map<InputKey, KeyState>& InputListener::GetKeysPressed()
 	{
 		return s_KeyBinds;
 	} 
 
-	std::unordered_map<MouseButton, KeyState>& InputListener::GetMouseButtonsPressed()
+
+	void InputListener::UpdateKey(InputKey key, KeyState Action)
 	{
-		return s_MouseBinds;
+		s_KeyBinds[key] = Action;
 	}
 
 	void InputListener::UpdateCursor(double* x, double* y)

@@ -100,7 +100,7 @@ namespace Yuzu
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		InputListener::SetListeningWindow(m_window);
+		InputListener::SetListeningWindow(m_window, Settings.MinNumberOfKeyBinds);
 		
 
 	}
@@ -117,7 +117,7 @@ namespace Yuzu
 	{
 
 		Yuzu::SimpleTimer FrameTimer;
-		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 5.0f);
+		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f));
 		cam.Activate();
 
 		while (!glfwWindowShouldClose(m_window))

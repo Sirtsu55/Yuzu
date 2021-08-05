@@ -36,7 +36,7 @@ namespace Yuzu
 		static Camera* ActiveCamera;
 	public:
 
-		Camera(const glm::vec3& Location, const glm::vec3& Front, const glm::vec3& Up, float speed, float scrollSpeed = 5.0f, float FOV = 45.0f);
+		Camera(const glm::vec3& Location, const glm::vec3& Front = glm::vec3(0.0f, 0.0f, -1.0f), const glm::vec3& Up = glm::vec3(0.0f, 1.0f, 0.0f), float speed = 5.0f, float scrollSpeed = 5.0f, float FOV = 45.0f);
 
 		void Activate();
 		void Move(Movement Direction, float Deltatime);

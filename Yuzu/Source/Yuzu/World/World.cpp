@@ -37,14 +37,13 @@ namespace Yuzu
             });
 
 
-        InputListener::UpdateKeys();
+        
         auto& KeyInp = InputListener::GetKeysPressed();
-        auto& MouseInp = InputListener::GetMouseButtonsPressed();
 
         auto InputView = m_Registry.view<InputComponent>();
-        InputView.each([&KeyInp, &MouseInp](InputComponent& InputCmp)
+        InputView.each([&KeyInp](InputComponent& InputCmp)
             {
-                InputCmp.BroadcastKeyInput(KeyInp, MouseInp);
+                InputCmp.BroadcastKeyInput(KeyInp);
             });
     }
         

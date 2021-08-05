@@ -16,6 +16,8 @@ namespace Yuzu
 
 		glm::vec2 AspectRatio = { 16 , 9 };
 
+		int MinNumberOfKeyBinds = 20;
+
 	};
 
 	class Window
