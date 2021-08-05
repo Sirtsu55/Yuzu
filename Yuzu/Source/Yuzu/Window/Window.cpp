@@ -130,13 +130,11 @@ namespace Yuzu
 			ImguiStartFrame();
 			Renderer2D::Clear();
 			glClearColor(m_Settings.BackgroundColor.x , m_Settings.BackgroundColor.y, m_Settings.BackgroundColor.z, m_Settings.BackgroundColor.w);
+			glfwPollEvents();
 
 
 			m_App->OnUpdate(FrameTime);
-
-
 			m_App->OnWidgetRender(FrameTime);
-
 
 			RenderImgui();
 			SwapBuffers();
@@ -168,7 +166,6 @@ namespace Yuzu
 
 	void Window::HandleInput()
 	{
-		glfwPollEvents();
 
 		if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		{

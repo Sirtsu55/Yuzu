@@ -17,6 +17,7 @@ public:
 	void Update(float DeltaTime) override;
 
 	void OnWPressed();
+	void Clicked();
 private:
 
 

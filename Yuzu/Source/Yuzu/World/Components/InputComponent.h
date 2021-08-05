@@ -19,6 +19,7 @@ namespace Yuzu
 		InputComponent(const InputComponent&) = default;
 
 		std::unordered_map<InputKey, void(Entity::*)(void)> Keybinds;
+		std::unordered_map<MouseButton, void(Entity::*)(void)> MouseBinds;
 		
 		void AddKeybind(InputKey KeyToAdd, void(Entity::* EventFunc)(void))
 		{
@@ -28,23 +29,40 @@ namespace Yuzu
 				InputListener::AddListeningKey(KeyToAdd);
 			}
 		}
-
-		void BroadcastKeyInput(std::unordered_map<InputKey, bool> Keys)
+		void AddMouseBind(MouseButton KeyToAdd, void(Entity::* EventFunc)(void))
 		{
 			if (EntityObject)
 			{
-				for (auto& [Key, KeyState] : Keys)
-				{
-					if (KeyState == true)
+				MouseBinds[KeyToAdd] = EventFunc;
+				InputListener::AddListeningMouseKey(KeyToAdd);
+			}
+		}
+		void BroadcastKeyInput(std::unordered_map<InputKey, KeyState>& Keys, std::unordered_map<MouseButton, KeyState>& MouseKeys)
+		{
+			if (EntityObject)
+			{
+				
+				for( auto& [Key, KeyFunction] : Keybinds)
+				{ 
+					if (Keys[Key] == KeyState::Pressed)
 					{
-						
-						(EntityObject->*(Keybinds[Key]))();
+						(EntityObject->*(KeyFunction))();
 					}
-
 				}
+
+				for (auto& [MouseKey, MouseFunction] : MouseBinds)
+				{
+					if (MouseKeys[MouseKey] == KeyState::Pressed)
+					{
+						(EntityObject->*(MouseFunction))();
+					}
+				}
+
 			}
 
 		}
+
+
 
 		Entity* EntityObject = nullptr;
 		

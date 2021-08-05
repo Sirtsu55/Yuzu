@@ -15,7 +15,8 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this);
 
 	
-	Inputs.AddKeybind(InputKey::W, Entity_Function(&MyEntity::OnWPressed));
+	Inputs.AddKeybind(Yuzu::InputKey::W, Entity_Function(MyEntity::OnWPressed));
+	Inputs.AddMouseBind(Yuzu::MouseButton::ButtonLeft, Entity_Function(MyEntity::Clicked));
 }
 
 void MyEntity::Update(float DeltaTime)
@@ -26,8 +27,12 @@ void MyEntity::Update(float DeltaTime)
 
 void MyEntity::OnWPressed()
 {
-	YZA_CRITICAL("INPUT COMPONENT PRESSED W");
 }
+void MyEntity::Clicked()
+{
+}
+
+
 
 MyEntity::~MyEntity()
 {
