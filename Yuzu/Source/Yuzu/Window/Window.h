@@ -32,7 +32,6 @@ namespace Yuzu
 		void SetApplication(Application* App);
 
 		void SetResolution(int x, int y);
-		void HandleScroll(double yoffset);
 		bool WindowShouldClose() { return glfwWindowShouldClose(m_window); }
 		
 		
@@ -41,7 +40,6 @@ namespace Yuzu
 		static int Width;
 		static int Height;
 		static float AspectRatio;
-		static float FrameTime;
 
 	private:
 
@@ -51,10 +49,9 @@ namespace Yuzu
 
 
 
-		void ImguiStartFrame();
-		void SwapBuffers();
-		void HandleInput();
-		void HandleMouse();
+		void RenderWindow() const;
+		void ImguiStartFrame() const;
+		void SwapBuffers() const;
 
 
 

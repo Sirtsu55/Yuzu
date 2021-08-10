@@ -14,6 +14,7 @@ void main()
 }
 
 
+
 !Fragment!
 #version 450 core
 
@@ -24,5 +25,7 @@ uniform sampler2D Image0;
 
 void main()
 {
-	FragColor = texture(Image0, TexCoord);
+
+	
+	FragColor =  texture(Image0, TexCoord);
 }

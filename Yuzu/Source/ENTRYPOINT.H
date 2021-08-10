@@ -2,6 +2,7 @@
 
 #include "Yuzu.h"
 
+
 namespace Yuzu
 {
 	void Initialize()
@@ -10,16 +11,29 @@ namespace Yuzu
 		Yuzu::TimerWriter::StartSession("App");
 		Yuzu::Renderer2D::InitializeDefaults();
 	}
+
+	void RunProgram(Application* App)
+	{
+		App->Init();
+		App->Start();
+		App->OnDestroy();
+		
+	}
+
+	void RunGameLoop(const Sptr<Window>& Win)
+	{
+		Win->MainLoop();
+	}
 }
 
 
 
-int main()
+int main(int argc, char** argv)
 {
-
+	
 	auto app = Yuzu::CreateApplication();
-	app->Run();
-	app->OnDestroy();
+	Yuzu::RunProgram(app);
 	delete app;
-
+	
+	return 0;
 }

@@ -13,7 +13,6 @@ namespace Yuzu
 
 
 
-
 	Entity::Entity(entt::entity entityid, World* world)
 		: m_EntityID(entityid), m_World(world)
 	{

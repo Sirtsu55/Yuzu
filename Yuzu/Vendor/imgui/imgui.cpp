@@ -2301,7 +2301,7 @@ void ImGuiListClipper::Begin(int items_count, float items_height)
     DisplayEnd = 0;
 }
 
-void ImGuiListClipper::End()
+void ImGuiListClipper::Endd()
 {
     if (ItemsCount < 0) // Already ended
         return;
@@ -2325,7 +2325,7 @@ bool ImGuiListClipper::Step()
     // No items
     if (ItemsCount == 0 || GetSkipItemForListClipping())
     {
-        End();
+        Endd();
         return false;
     }
 
@@ -2379,7 +2379,7 @@ bool ImGuiListClipper::Step()
     // Reached end of list
     if (DisplayEnd >= ItemsCount)
     {
-        End();
+        Endd();
         return false;
     }
 
@@ -4402,7 +4402,7 @@ void ImGui::EndFrame()
     g.WithinFrameScopeWithImplicitWindow = false;
     if (g.CurrentWindow && !g.CurrentWindow->WriteAccessed)
         g.CurrentWindow->Active = false;
-    End();
+    Endd();
 
     // Update navigation: CTRL+Tab, wrap-around requests
     NavEndFrame();
@@ -5039,7 +5039,7 @@ void ImGui::EndChild()
     g.WithinEndChild = true;
     if (window->BeginCount > 1)
     {
-        End();
+        Endd();
     }
     else
     {
@@ -5048,7 +5048,7 @@ void ImGui::EndChild()
             sz.x = ImMax(4.0f, sz.x);
         if (window->AutoFitChildAxises & (1 << ImGuiAxis_Y))
             sz.y = ImMax(4.0f, sz.y);
-        End();
+        Endd();
 
         ImGuiWindow* parent_window = g.CurrentWindow;
         ImRect bb(parent_window->DC.CursorPos, parent_window->DC.CursorPos + sz);
@@ -6363,7 +6363,7 @@ bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
     return !window->SkipItems;
 }
 
-void ImGui::End()
+void ImGui::Endd()
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
@@ -7191,7 +7191,7 @@ static void ImGui::ErrorCheckEndFrameSanityChecks()
         {
             IM_ASSERT_USER_ERROR(g.CurrentWindowStack.Size == 1, "Mismatched Begin/BeginChild vs End/EndChild calls: did you forget to call End/EndChild?");
             while (g.CurrentWindowStack.Size > 1)
-                End();
+                Endd();
         }
         else
         {
@@ -7269,7 +7269,7 @@ void    ImGui::ErrorCheckEndFrameRecover(ImGuiErrorLogCallback log_callback, voi
         else
         {
             if (log_callback) log_callback(user_data, "Recovered from missing End() for '%s'", window->Name);
-            End();
+            Endd();
         }
     }
 }
@@ -8045,7 +8045,7 @@ void ImGui::BeginTooltipEx(ImGuiWindowFlags extra_flags, ImGuiTooltipFlags toolt
 void ImGui::EndTooltip()
 {
     IM_ASSERT(GetCurrentWindowRead()->Flags & ImGuiWindowFlags_Tooltip);   // Mismatched BeginTooltip()/EndTooltip() calls
-    End();
+    Endd();
 }
 
 void ImGui::SetTooltipV(const char* fmt, va_list args)
@@ -8369,7 +8369,7 @@ void ImGui::EndPopup()
     IM_ASSERT(g.WithinEndChild == false);
     if (window->Flags & ImGuiWindowFlags_ChildWindow)
         g.WithinEndChild = true;
-    End();
+    Endd();
     g.WithinEndChild = false;
 }
 
@@ -9742,7 +9742,7 @@ void ImGui::NavUpdateWindowingOverlay()
             label = GetFallbackWindowNameForWindowingList(window);
         Selectable(label, g.NavWindowingTarget == window);
     }
-    End();
+    Endd();
     PopStyleVar();
 }
 
@@ -10918,7 +10918,7 @@ void ImGui::ShowMetricsWindow(bool* p_open)
 {
     if (!Begin("Dear ImGui Metrics/Debugger", p_open))
     {
-        End();
+        Endd();
         return;
     }
 
@@ -11277,7 +11277,7 @@ void ImGui::ShowMetricsWindow(bool* p_open)
     }
 #endif // #ifdef IMGUI_HAS_DOCK
 
-    End();
+    Endd();
 }
 
 // [DEBUG] Display contents of Columns

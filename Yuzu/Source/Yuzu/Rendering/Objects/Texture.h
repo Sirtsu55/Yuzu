@@ -6,6 +6,7 @@ namespace Yuzu
 	class Texture
 	{
 	private:
+
 		std::string m_FilePath;
 		unsigned int m_RenderID;
 		unsigned char* m_LocalBuffer;

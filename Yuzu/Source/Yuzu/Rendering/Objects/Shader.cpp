@@ -4,27 +4,32 @@
 
 namespace Yuzu
 {
-    Shader::Shader(const std::string& filepath)
-        :m_ProgramID(0), m_FilePath(filepath)
+    CoreShader::CoreShader(const std::string& filepath)
+        :m_ProgramID(0)
     {
 
-        ShaderSource source = ParseShader();
-        m_ProgramID = CreateShader(source.VertexShource, source.FragmentShource);
+        ShaderSource source = ParseShader(filepath);
+        m_ProgramID = CreateShader(source.VertexSource, source.FragmentSource);
 
 
     }
 
-    Shader::Shader()
+    CoreShader::CoreShader(const ShaderSource& Source)
+    {
+        m_ProgramID = CreateShader(Source.VertexSource, Source.FragmentSource);
+    }
+
+    CoreShader::CoreShader()
         :m_ProgramID(0)
     {
     }
 
-    Shader::~Shader()
+    CoreShader::~CoreShader()
     {
         glDeleteProgram(m_ProgramID);
     }
 
-    void Shader::Bind() const
+    void CoreShader::Bind() const
     {
         for (const auto&[Slot, Texture] : m_TextureMap)
         {
@@ -33,30 +38,30 @@ namespace Yuzu
         glUseProgram(m_ProgramID);
     }
 
-    void Shader::SetInt(const char* name, const int val)  const
+    void CoreShader::SetInt(const char* name, const int val)  const
     {
 
         glUniform1i(GetUniformLocation(name), val);
 
     }
 
-    void Shader::SetVec4(const char* name, const glm::vec4& value) const
+    void CoreShader::SetVec4(const char* name, const glm::vec4& value) const
     {
         glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 
     }
 
-    void Shader::SetVec3(const char* name, const glm::vec3& value) const
+    void CoreShader::SetVec3(const char* name, const glm::vec3& value) const
     {
         glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
     }
 
-    void Shader::SetMat4(const char* name, const glm::mat4& matrix) const
+    void CoreShader::SetMat4(const char* name, const glm::mat4& matrix) const
     {
         glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
     }
 
-    int Shader::GetUniformLocation(const char* name) const
+    int CoreShader::GetUniformLocation(const char* name) const
     {
         if (m_UniformMap.find(name) != m_UniformMap.end())
             return m_UniformMap[name];
@@ -70,12 +75,12 @@ namespace Yuzu
         return loc;
     }
 
-    void Shader::InsertTexture(Sptr<Texture> NewTex, unsigned char slot)
+    void CoreShader::InsertTexture(Sptr<Texture> NewTex, unsigned char slot)
     {
         m_TextureMap[slot] = NewTex;
     }
 
-    unsigned int Shader::CreateShader(const std::string VertexSource, std::string FragmentSource)
+    unsigned int CoreShader::CreateShader(const std::string VertexSource, std::string FragmentSource)
     {
 
         unsigned int vs = CompileShader(GL_VERTEX_SHADER, VertexSource);
@@ -114,7 +119,7 @@ namespace Yuzu
 
     }
 
-    ShaderSource Shader::ParseShader()
+    ShaderSource CoreShader::ParseShader(std::string Path)
     {
 
         std::string outVertexSource;
@@ -123,10 +128,10 @@ namespace Yuzu
         std::ifstream file;
         std::string line;
 
-        std::cout << m_FilePath;
+        std::cout << Path;
 
         char Current = 0;
-        file.open(m_FilePath.c_str());
+        file.open(Path.c_str());
 
         while (std::getline(file, line))
         {
@@ -149,7 +154,7 @@ namespace Yuzu
         return { outVertexSource, outFragmentSource };
     }
 
-    unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
+    unsigned int CoreShader::CompileShader(unsigned int type, const std::string& source)
     {
         unsigned int id = glCreateShader(type);
 

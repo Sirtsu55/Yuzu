@@ -22,7 +22,7 @@ namespace Yuzu
 		StartTime = std::chrono::high_resolution_clock::now();
 	}
 	/// Gives Time in Seconds
-	double SimpleTimer::End()
+	double SimpleTimer::Endd()
 	{
 		EndTime = std::chrono::high_resolution_clock::now();
 
@@ -30,9 +30,17 @@ namespace Yuzu
 		return Duration.count();
 
 	}
+	float SimpleTimer::Endf()
+	{
+		EndTime = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<float> Duration = (EndTime - StartTime);
+		return Duration.count();
+
+	}
 	/// Gives Time in Specified accuracy
 
-	double SimpleTimer::End(TimerAccuracy acc)
+	double SimpleTimer::Endd(TimerAccuracy acc)
 	{
 
 		EndTime = std::chrono::high_resolution_clock::now();
@@ -60,6 +68,41 @@ namespace Yuzu
 			case TimerAccuracy::Seconds:
 			{
 				std::chrono::duration<double> Duration = EndTime - StartTime;
+				return Duration.count();
+				break;
+			}
+
+		}
+		return -1;
+	}
+	float SimpleTimer::Endf(TimerAccuracy acc)
+	{
+
+		EndTime = std::chrono::high_resolution_clock::now();
+
+		switch (acc)
+		{
+		case TimerAccuracy::MilliSec:
+			{
+				std::chrono::duration<float, std::milli> Duration = EndTime - StartTime;
+				return Duration.count();
+				break;
+			}
+			case TimerAccuracy::MicroSec:
+			{
+				std::chrono::duration<float, std::micro> Duration = EndTime - StartTime;
+				return Duration.count();
+				break;
+			}
+			case TimerAccuracy::NanoSec:
+			{
+				std::chrono::duration<float, std::nano> Duration = EndTime - StartTime;
+				return Duration.count();
+				break;
+			}
+			case TimerAccuracy::Seconds:
+			{
+				std::chrono::duration<float> Duration = EndTime - StartTime;
 				return Duration.count();
 				break;
 			}

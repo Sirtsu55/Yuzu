@@ -3,7 +3,7 @@
 #include "Yuzu/Rendering/Objects/ElementBuffer.h"
 #include "Yuzu/Rendering/Objects/Shader.h"
 #include "Yuzu/World/Components/Components.h"
-
+#include "Yuzu/Window/JobHandler.h"
 
 namespace Yuzu
 {
@@ -14,7 +14,7 @@ namespace Yuzu
 	public:
 		struct DefaultPrimitive
 		{
-			Sptr<Shader> Shader;
+			Sptr<CoreShader> CoreShader;
 			Uptr<VertexBuffer> VBO;
 			Uptr<ElementBuffer> EBO;
 			Uptr<VertexArray> VAO;
@@ -33,21 +33,29 @@ namespace Yuzu
 		Renderer2D() = default;
 		~Renderer2D() = default;
 
-		static Sptr<Shader> Basic2DShader;
+		static Sptr<CoreShader> Basic2DShader;
 		static DefaultPrimitive Square;
 		static DefaultPrimitive Triangle;
 		static DefaultTexturedQuad TexturedSquare;
 
+
+		static std::queue<Job> OpenGLCalls;
+
+		static void CreateShader(void* Dest);
 	public:
 		static void InitializeDefaults();
-
+		static void MakeOpenGLCalls();
 
 		static void DrawSprite(TransformComponent Transform, SpriteComponent Sprite);
 		static void DrawSprite(TransformComponent Transform, TexturedSpriteComponent Sprite);
 
-		static void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::Shader& Shader);
+		static void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::CoreShader& CoreShader);
 		static void Clear();
 
+		static void QueueShaderCreation(Shader* ShaderDest);
+
+
+		
 
 		
 	};

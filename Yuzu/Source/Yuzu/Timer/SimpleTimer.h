@@ -22,8 +22,11 @@ namespace Yuzu
 
 
 		void Start();
-		double End(TimerAccuracy acc);
-		double End();
+		double Endd(TimerAccuracy acc);
+		double Endd();
+
+		float Endf(TimerAccuracy acc);
+		float Endf();
 
 
 	private:

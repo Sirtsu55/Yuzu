@@ -2,6 +2,7 @@
 #include "Application.h"
 
 
+
 namespace Yuzu
 {
 	
@@ -15,7 +16,11 @@ namespace Yuzu
 	{
 	}
 
-	void Application::Run()
+	void Application::Init()
+	{
+	}
+
+	void Application::Start()
 	{
 	}
 
@@ -32,5 +37,6 @@ namespace Yuzu
 	}
 
 
+	
 
 }

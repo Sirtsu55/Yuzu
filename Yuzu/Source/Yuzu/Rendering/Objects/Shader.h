@@ -9,21 +9,18 @@ namespace Yuzu
 {
 	struct ShaderSource
 	{
-		std::string VertexShource;
-		std::string FragmentShource;
+		std::string VertexSource;
+		std::string FragmentSource;
 	};
-
-	class Shader
+	class CoreShader
 	{
 
 	private:
 
 		unsigned int m_ProgramID;
-		std::string m_FilePath;
 
 
 		unsigned int CreateShader(const std::string VertexSource, std::string FragmentSource);
-		ShaderSource ParseShader();
 		unsigned int CompileShader(unsigned int type, const std::string& source);
 
 		mutable std::unordered_map<std::string, int> m_UniformMap;
@@ -32,9 +29,10 @@ namespace Yuzu
 
 
 	public:
-		Shader(const std::string& filepath);
-		Shader();
-		~Shader();
+		CoreShader(const std::string& filepath);
+		CoreShader(const ShaderSource& Source);
+		CoreShader();
+		~CoreShader();
 
 		unsigned int GetProgram() { return m_ProgramID; }
 		void Bind() const;
@@ -46,6 +44,16 @@ namespace Yuzu
 		int GetUniformLocation(const char* name) const;
 
 		void InsertTexture(Sptr<Texture> NewTex, unsigned char slot);
+
+
+		static ShaderSource ParseShader(std::string Path);
 	};
+	struct Shader
+	{
+		std::string Path;
+		ShaderSource Src;
+		Sptr<CoreShader> shader;
+	};
+
 
 }

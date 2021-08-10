@@ -59,14 +59,23 @@ namespace Yuzu
 			m_World->m_Registry.remove<T>(m_EntityID);
 		}
 
+		template<typename T>
+		T* GetPtrToComponent()
+		{
+			T& Cmp = m_World->m_Registry.get<T>(m_EntityID);
+			return &Cmp;
+		}
+
 
 		void SetLocation(glm::vec3 Location);
 
-		bool IsValid()
+		bool IsValid() const
 		{
 			return m_World->m_Registry.valid(m_EntityID);
 		}
 		virtual void Update(float DeltaTime) = 0;
+
+
 
 
 	};

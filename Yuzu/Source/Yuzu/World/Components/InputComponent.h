@@ -37,7 +37,7 @@ namespace Yuzu
 				
 				for( auto& [Key, KeyFunction] : Keybinds)
 				{ 
-					if (Keys[Key] == KeyState::Pressed)
+					if (Keys[Key] == KeyState::Pressed || Keys[Key] == KeyState::Repeated)
 					{
 						(EntityObject->*(KeyFunction))();
 					}

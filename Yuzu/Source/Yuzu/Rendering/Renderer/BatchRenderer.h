@@ -56,7 +56,7 @@ namespace Yuzu
 		unsigned int* m_IndicesPtr;
 		Vertex* m_VerticesPtr;
 
-		Shader* m_Shader;
+		CoreShader* m_Shader;
 		BatchSettings m_Settings;
 
 		unsigned int m_VerticesFilled;

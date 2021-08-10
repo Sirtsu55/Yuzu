@@ -549,9 +549,6 @@
     <ClInclude Include="Source\Yuzu\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\World\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Yuzu\Window\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -867,13 +864,13 @@
     <ClInclude Include="Source\Yuzu\World\Entities\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\World\Components\Sprite.h">
+    <ClInclude Include="Source\Yuzu\World\Components\SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\World\Components\Tag.h">
+    <ClInclude Include="Source\Yuzu\World\Components\TagComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\World\Components\Transform.h">
+    <ClInclude Include="Source\Yuzu\World\Components\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Yuzu\World\Components\TickComponent.h">
@@ -886,6 +883,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Yuzu\Window\InputKeys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Yuzu\World\Components\CameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Yuzu\World\Entities\TagEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Yuzu\World\CameraHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Yuzu\Window\JobHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Yuzu\Rendering\Objects\ResourceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -944,9 +956,6 @@
     <ClCompile Include="Source\Yuzu\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Yuzu\World\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Yuzu\Window\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -975,6 +984,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Yuzu\Window\InputListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Yuzu\World\CameraHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Yuzu\Window\JobHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Yuzu\Rendering\Objects\ResourceHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

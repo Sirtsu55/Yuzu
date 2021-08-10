@@ -65,7 +65,7 @@ namespace Yuzu {
 		PageUp = GLFW_KEY_PAGE_UP,
 		PageDown = GLFW_KEY_PAGE_DOWN,
 		Home = GLFW_KEY_HOME,
-		End = GLFW_KEY_END,
+		Endd = GLFW_KEY_END,
 		CapsLock = GLFW_KEY_CAPS_LOCK,
 		ScrollLock = GLFW_KEY_SCROLL_LOCK,
 		NumLock = GLFW_KEY_NUM_LOCK,

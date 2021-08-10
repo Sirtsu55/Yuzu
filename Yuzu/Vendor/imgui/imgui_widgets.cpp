@@ -6671,7 +6671,7 @@ bool ImGui::BeginMainMenuBar()
     if (is_open)
         BeginMenuBar();
     else
-        End();
+        Endd();
     return is_open;
 }
 
@@ -6685,7 +6685,7 @@ void ImGui::EndMainMenuBar()
     if (g.CurrentWindow == g.NavWindow && g.NavLayer == ImGuiNavLayer_Main && !g.NavAnyRequest)
         FocusTopMostWindowUnderOne(g.NavWindow, NULL);
 
-    End();
+    Endd();
 }
 
 bool ImGui::BeginMenu(const char* label, bool enabled)

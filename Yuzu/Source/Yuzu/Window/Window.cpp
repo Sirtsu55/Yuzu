@@ -1,25 +1,18 @@
 ﻿#include "Core.h"
 
 #include "InputListener.h"
+#include "JobHandler.h"
 #include "Window.h"
-#include "Rendering/Objects/Shader.h"
-#include "Rendering/Objects/VertexArray.h"
-#include "Rendering/Objects/VertexBuffer.h"
-#include "Rendering/Objects/VertexBufferLayout.h"
-#include "Rendering/Objects/ElementBuffer.h"
-#include "Rendering/Objects/Texture.h"
 #include "Rendering/Renderer/Renderer.h"
-#include "Rendering/Renderer/BatchRenderer.h"
-
-
-#include "World/Camera.h"
+#include "World/World.h"
+#include "Rendering/Objects/Shader.h"
+#include "Rendering/Objects/ResourceHandler.h"
 
 
 namespace Yuzu
 {
 	int Window::Width;
 	int Window::Height;
-	float Window::FrameTime = 0.0f;
 	float Window::AspectRatio = 16 / 9;
 
 
@@ -37,18 +30,7 @@ namespace Yuzu
 			handler->SetResolution(width, height);
 		}
 	}
-	static void scrollcallback(GLFWwindow* window, double xoffset, double yoffset)
-	{
-
-		Window* handler = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-
-		if (handler)
-		{
-			handler->HandleScroll(yoffset);
-		}
-	}
-
-
+	
 
 	Window::Window(const WindowInitSettings& Settings)
 		: m_Settings(Settings)
@@ -75,7 +57,6 @@ namespace Yuzu
 		
 		glfwSetWindowAspectRatio(m_window, (int)m_Settings.AspectRatio.x, (int)m_Settings.AspectRatio.y);
 
-
 		glfwMakeContextCurrent(m_window);
 
 		if (!gladLoadGL())
@@ -91,8 +72,8 @@ namespace Yuzu
 		glfwSetWindowUserPointer(m_window, reinterpret_cast<void*>(this));
 
 		glfwSetFramebufferSizeCallback(m_window, framebufferesize);
-		glfwSetScrollCallback(m_window, scrollcallback);
 
+		glfwSwapInterval(0);
 #if DEBUG_LEVEL > 0
 		glEnable(GL_DEBUG_OUTPUT);
 		glDebugMessageCallback(OpenGLErrorCallback, NULL);
@@ -108,49 +89,68 @@ namespace Yuzu
 	Window::~Window()
 	{
 	}
+	
+	
+	static void ReadAndCreateShader(void* SrcDest)
+	{
+		Shader* Dest = ReCast<Shader*>(SrcDest);
+		Dest->Src = CoreShader::ParseShader(Dest->Path);
 
-
-
-	unsigned int* indices = new unsigned int[12] { 0, 1, 2, 1, 2, 3, 4, 5, 6, 5, 6, 7 };
+		Renderer2D::QueueShaderCreation(Dest);
+	}
 
 	void Window::MainLoop()
 	{
 
 		Yuzu::SimpleTimer FrameTimer;
-		Yuzu::Camera cam(glm::vec3(0.0f, 0.0f, 5.0f));
-		cam.Activate();
+
+		JobHandler Jobs;
+		Shader sh;
+		sh.Path = "Resources/Shaders/LightDemo2D.glsl";
+		ResourceHandler::CreateShader(sh);
+		
+		
+		
 
 		while (!glfwWindowShouldClose(m_window))
 		{
 			YZ_PROFILE("FrameTime");
-
-
-
 			FrameTimer.Start();
+
+
 			ImguiStartFrame();
 			Renderer2D::Clear();
 			glClearColor(m_Settings.BackgroundColor.x , m_Settings.BackgroundColor.y, m_Settings.BackgroundColor.z, m_Settings.BackgroundColor.w);
+
+
 			glfwPollEvents();
+			m_App->OnUpdate(Yuzu::World::FrameTimeStep.Seconds);
+			RenderWindow();
+			m_App->OnWidgetRender(Yuzu::World::FrameTimeStep.Seconds);
 
-
-			m_App->OnUpdate(FrameTime);
-			m_App->OnWidgetRender(FrameTime);
 
 			RenderImgui();
 			SwapBuffers();
-			HandleInput();
+			
 
-
-			FrameTime = static_cast<float>(FrameTimer.End(TimerAccuracy::Seconds));
+			Renderer2D::MakeOpenGLCalls();
+			World::FrameTimeStep.Seconds = FrameTimer.Endf(Yuzu::TimerAccuracy::Seconds);
+			World::FrameTimeStep.Milliseconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MilliSec);
+			World::FrameTimeStep.MicroSeconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MicroSec);
 		}
 	
+	}
+
+	void Window::RenderWindow() const
+	{
+		World::RenderWorld();
+
 	}
 
 
 
 
-
-	void Window::ImguiStartFrame()
+	void Window::ImguiStartFrame() const
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -158,70 +158,15 @@ namespace Yuzu
 
 	}
 
-	void Window::SwapBuffers()
+	void Window::SwapBuffers() const
 	{
 		glfwSwapBuffers(m_window);
 
 	}
 
-	void Window::HandleInput()
-	{
-
-		if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		{
-			glfwSetWindowShouldClose(m_window, true);
-		}
-
-		if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Up, FrameTime);
-			YZC_TRACE("W Pressed");
+	
 
 
-		}
-		if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Down, FrameTime);
-			YZC_TRACE("S Pressed");
-
-		}
-
-		if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Left, FrameTime);
-			YZC_TRACE("A Pressed");
-
-
-		}
-		if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Right, FrameTime);
-			YZC_TRACE("D Pressed");
-
-		}
-		HandleMouse();
-	}
-
-	void Window::HandleMouse()
-	{
-		double xPos, yPos;
-		glfwGetCursorPos(m_window, &xPos, &yPos);
-
-	}
-
-	void Window::HandleScroll(double yoffset)
-	{
-		YZC_TRACE("Scrolled");
-
-		if (yoffset > 0.0)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Forward, FrameTime);
-		}
-		else if (yoffset < 0.0)
-		{
-			Yuzu::Camera::GetCurrentCamera()->Move(Yuzu::Camera::Movement::Back, FrameTime);
-		}
-	}
 	inline void Window::RenderImgui()
 	{
 		ImGui::Render();

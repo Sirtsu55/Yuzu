@@ -1,7 +1,8 @@
 #pragma once
 
 #include "glm/glm.hpp"
-#include "Yuzu/World/Camera.h"
+#include "Yuzu/World/CameraHandler.h"
+
 namespace Yuzu
 {
 	struct TransformComponent
@@ -16,9 +17,9 @@ namespace Yuzu
 		TransformComponent(const TransformComponent&) = default;
 		~TransformComponent() = default;
 
-		glm::mat4 GetMVPTransform()
+		glm::mat4 GetMVPTransform() const
 		{ 
-			return Camera::GetCurrentCamera()->GetViewProjectionMatrix() * Transform;
+			return CameraHandler::GetViewProjMatrix() * Transform;
 			
 		}
 

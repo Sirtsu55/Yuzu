@@ -28,8 +28,8 @@ namespace Yuzu
 	{
 
 		TexturedSpriteComponent() = default;
-		TexturedSpriteComponent(const std::string path, PrimitiveShape shape)
-			: SpriteShader(CreateSptr<Yuzu::Shader>(path))
+		TexturedSpriteComponent(const std::string path)
+			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path))
 		{
 			
 		}
@@ -46,7 +46,7 @@ namespace Yuzu
 			std::string name = "Image" + std::to_string(slot);
 			SpriteShader->SetInt(name.c_str(), slot);
 		}
-		Sptr<Shader> SpriteShader;
+		Sptr<CoreShader> SpriteShader;
 
 	};
 }

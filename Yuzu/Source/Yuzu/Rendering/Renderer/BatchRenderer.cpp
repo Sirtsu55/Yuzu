@@ -1,13 +1,14 @@
 #include "Core.h"
 #include "BatchRenderer.h"
-#include "World/Camera.h"
+#include "World/CameraHandler.h"
+
 namespace Yuzu
 {
 
 	BatchRenderer2D::BatchRenderer2D(const BatchSettings& Settings)
 	{
 		m_Settings = Settings;
-		m_Shader = new Shader(m_Settings.m_ShaderPath);
+		m_Shader = new CoreShader(m_Settings.m_ShaderPath);
 
 		m_VerticesPtr = new Vertex[m_Settings.MaxQuads];
 		m_IndicesPtr = new unsigned int[m_Settings.MaxIndices];
@@ -194,7 +195,7 @@ namespace Yuzu
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 		
 		
-		glm::mat4 MVP = (Yuzu::Camera::GetCurrentCamera()->GetViewProjectionMatrix()) * glm::mat4(1.0f);
+		glm::mat4 MVP = (CameraHandler::GetViewProjMatrix()) * glm::mat4(1.0f);
 		m_Shader->SetMat4("MVPMatrix", MVP);
 		
 		glDrawElements(GL_TRIANGLES, m_Settings.MaxIndices, GL_UNSIGNED_INT, NULL);

@@ -6,6 +6,7 @@
 #include <map>
 #include <fstream>
 #include <memory>
+#include <queue>
 #include <thread>
 #include <chrono>
 #include <thread>
@@ -71,6 +72,14 @@ constexpr Uptr<T> CreateUptr(Args&& ... args)
 	return std::make_unique<T>(std::forward<Args>(args)...);
 }
 
+
+
+//---------------------------------------
+//Casting
+//---------------------------------------
+
+#define ReCast reinterpret_cast
+
 //---------------------------------------
 //Logging
 //---------------------------------------
@@ -122,7 +131,7 @@ constexpr Uptr<T> CreateUptr(Args&& ... args)
 
 
 
-#define DEBUG_LEVEL 3
+#define DEBUG_LEVEL 4
 
 
 #if DEBUG_LEVEL > 0
@@ -169,5 +178,3 @@ static void GLAPIENTRY OpenGLErrorCallback(GLenum source​, GLenum type​, GLu
 
 //---------------------------------------
 //---------------------------------------
-
-

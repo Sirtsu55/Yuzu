@@ -31,6 +31,7 @@
     <None Include="Resources\Shaders\TexturedSquare.glsl" />
     <None Include="Resources\Shaders\Basic2D.glsl" />
     <None Include="Resources\Shaders\TexturedBasic2D.glsl" />
+    <None Include="Resources\Shaders\LightDemo2D.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\SandboxApplication.h">
