@@ -900,6 +900,9 @@
     <ClInclude Include="Source\Yuzu\Rendering\Objects\ResourceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Yuzu\Timer\TimerHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\glad\glad.c">
@@ -993,6 +996,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Yuzu\Rendering\Objects\ResourceHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Yuzu\Timer\TimerHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1331,5 +1337,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Dependencies\GLFW\x64\glfw3.lib" />
+    <Library Include="Dependencies\GLFW\Win32\glfw3.lib" />
   </ItemGroup>
 </Project>

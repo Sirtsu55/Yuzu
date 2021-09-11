@@ -1,7 +1,7 @@
 #include "MyEntity.h"
 
 
-
+Sptr<Yuzu::Texture> MyEntity::s_Texture = nullptr;
 
 MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	:TagEntity(World, "Mario")
@@ -9,6 +9,9 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	AddComponent<Yuzu::TransformComponent>();
 
 	AddComponent<Yuzu::TickComponent>(this);
+	AddComponent<Yuzu::SpriteComponent>(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), Yuzu::PrimitiveShape::Triangle);
+
+	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
 	Yuzu::CameraComponent& Camera = AddComponent<Yuzu::CameraComponent>(glm::vec3(0.0f, 0.0f, 5.0f));
 	Yuzu::CameraHandler::Activate(&Camera);
@@ -16,62 +19,78 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	
 	m_Name = GetPtrToComponent<Yuzu::TagComponent>();
 	m_Camera = GetPtrToComponent<Yuzu::CameraComponent>();
-	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Function(MyEntity::LoadGibby));
-	Inputs.AddKeybind(Yuzu::InputKey::W, Entity_Function(MyEntity::MoveUp));
-	Inputs.AddKeybind(Yuzu::InputKey::S, Entity_Function(MyEntity::MoveDown));
-	Inputs.AddKeybind(Yuzu::InputKey::A, Entity_Function(MyEntity::MoveLeft));
-	Inputs.AddKeybind(Yuzu::InputKey::D, Entity_Function(MyEntity::MoveRight));
+	m_SpriteComp = GetPtrToComponent<Yuzu::SpriteComponent>();
+	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
+	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
+
+	
+
+
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
+	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::Jump));
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
 }
 
 
 
 void MyEntity::Update(float DeltaTime)
 {
-	YZA_INFO(m_Name->Name);
 
 	
-
-
+	m_InputComp->UpdateContinuousKeys();
 }
-void MyEntity::LoadGibby()
-{
 
-	if (!(HasComponent<Yuzu::TexturedSpriteComponent>()))
+
+
+void MyEntity::Jump(Yuzu::KeyState State)
+{
+	if (State == Yuzu::KeyState::Pressed)
 	{
-		auto TexComp = AddComponent<Yuzu::TexturedSpriteComponent>("Resources/Shaders/TexturedBasic2D.glsl");
-		Sptr<Yuzu::Texture> Tex = CreateSptr<Yuzu::Texture>("Resources/image.jpg");
-		TexComp.InsertTexture(Tex, 0);
+		m_TransComp->SetSize(2.0f);
 	}
-	
-	YZA_CRITICAL("TEXTURE ADDED");
+	else if (State == Yuzu::KeyState::Released)
+	{
+		m_TransComp->SetSize(0.5f);
+	}
 }
 
-void MyEntity::MoveUp()
+
+void MyEntity::MoveUp(Yuzu::KeyState State)
 {
-	m_Camera->Move(glm::vec3(0.0f, 1.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->Move(glm::vec3(0.0f, m_Speed, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	}
 }
 
-void MyEntity::MoveDown()
+void MyEntity::MoveDown(Yuzu::KeyState State)
 {
-	m_Camera->Move(glm::vec3(0.0f, -1.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->Move(glm::vec3(0.0f, -m_Speed, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	}
 }
-
-void MyEntity::MoveLeft()
+void MyEntity::MoveLeft(Yuzu::KeyState State)
 {
-	m_Camera->Move(glm::vec3(-1.0f, 0.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->Move(glm::vec3(-m_Speed, 0.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	}
 }
 
-void MyEntity::MoveRight()
+void MyEntity::MoveRight(Yuzu::KeyState State)
 {
-	m_Camera->Move(glm::vec3(1.0f, 0.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->Move(glm::vec3(m_Speed, 0.0f, 0.0f) * Yuzu::World::GetTimeStep().Seconds);
+	}
 }
 
 
-void MyEntity::Clicked()
-{
-	YZA_CRITICAL("RIGHT CLICK");
 
-}
 
 
 

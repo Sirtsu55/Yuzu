@@ -47,7 +47,6 @@ namespace Yuzu
 		static void MakeOpenGLCalls();
 
 		static void DrawSprite(TransformComponent Transform, SpriteComponent Sprite);
-		static void DrawSprite(TransformComponent Transform, TexturedSpriteComponent Sprite);
 
 		static void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::CoreShader& CoreShader);
 		static void Clear();

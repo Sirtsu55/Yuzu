@@ -11,47 +11,66 @@ namespace Yuzu
 
 		InputComponent() = default;
 		InputComponent(Entity* Parent, int MinNumOfKeyBinds)
-			: EntityObject(Parent)
+			: EntityObject(Parent), init(true)
 		{
 			Keybinds.reserve(MinNumOfKeyBinds);
+			InputListener::_SetInputComp(this);
 		}
-		~InputComponent() = default;
+		~InputComponent()
+		{
+			if (init)
+			{
+				InputListener::_DelInputComp(this); 
+			}
+		}
 		InputComponent(const InputComponent&) = default;
 
-		std::unordered_map<InputKey, void(Entity::*)(void)> Keybinds;
-
+		std::unordered_map<InputKey, void(Entity::*)(KeyState)> Keybinds;
+		std::vector<InputKey> ContinuousUpdateKeys;
 		
-		void AddKeybind(InputKey KeyToAdd, void(Entity::* EventFunc)(void))
+		void AddKeybind(InputKey KeyToAdd, void(Entity::*EventFunc)(KeyState))
 		{
 			if (EntityObject)
 			{
 				Keybinds[KeyToAdd] = EventFunc;
-				InputListener::AddListeningKey(KeyToAdd);
+
 			}
 		}
-	
-		void BroadcastKeyInput(std::unordered_map<InputKey, KeyState>& Keys)
+
+		void AddContinuousKeybind(InputKey KeyToAdd, void(Entity::* EventFunc)(KeyState))
 		{
 			if (EntityObject)
 			{
-				
-				for( auto& [Key, KeyFunction] : Keybinds)
-				{ 
-					if (Keys[Key] == KeyState::Pressed || Keys[Key] == KeyState::Repeated)
-					{
-						(EntityObject->*(KeyFunction))();
-					}
-				}
-
-
+				Keybinds[KeyToAdd] = EventFunc;
+				ContinuousUpdateKeys.push_back(KeyToAdd);
 
 			}
-
 		}
 
 
+		void Call(InputKey key, KeyState state)
+		{
+			auto KeyStatePair = Keybinds.find(key);
+			if (KeyStatePair != Keybinds.end())
+			{
+				(EntityObject->*(KeyStatePair->second))(state);
+			}
+			
+		}
+
+		void UpdateContinuousKeys()
+		{
+			for (auto Key : ContinuousUpdateKeys)
+			{
+				(EntityObject->*(Keybinds[Key]))(InputListener::GetKeyState(Key));
+			}
+		}
+
 
 		Entity* EntityObject = nullptr;
+
+	private:
+		bool init = false;
 		
 		
 	};

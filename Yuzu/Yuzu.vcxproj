@@ -27,13 +27,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>YZ_BUILD_DLL;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
@@ -107,7 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>YZ_BUILD_DLL;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
@@ -128,7 +128,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>YZ_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
@@ -146,7 +146,7 @@
       <AdditionalDependencies>glfw3.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,7 +155,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>YZ_BUILD_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);YZ_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
@@ -175,7 +175,7 @@
       <AdditionalDependencies>glfw3.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -209,6 +209,7 @@
     <ClInclude Include="Source\Yuzu\Timer\TimerWriter.h" />
     <ClInclude Include="Source\Yuzu\World\Components\Components.h" />
     <ClInclude Include="Source\Yuzu\World\Entities\TagEntity.h" />
+    <ClInclude Include="Source\Yuzu\Timer\TimerHandler.h" />
     <ClInclude Include="Vendor\fmt\chrono.h" />
     <ClInclude Include="Vendor\fmt\color.h" />
     <ClInclude Include="Vendor\fmt\compile.h" />
@@ -516,6 +517,7 @@
     <ClCompile Include="Source\Yuzu\Timer\SimpleTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Window\Window.cpp" />
     <ClCompile Include="Source\Yuzu\Timer\TimerWriter.cpp" />
+    <ClCompile Include="Source\Yuzu\Timer\TimerHandler.cpp" />
     <ClCompile Include="Vendor\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -646,6 +648,10 @@
     <None Include="Vendor\glm\gtx\vector_angle.inl" />
     <None Include="Vendor\glm\gtx\vector_query.inl" />
     <None Include="Vendor\glm\gtx\wrap.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Dependencies\GLFW\Win32\glfw3.lib" />
+    <Library Include="Dependencies\GLFW\x64\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

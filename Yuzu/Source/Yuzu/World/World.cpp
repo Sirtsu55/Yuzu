@@ -21,15 +21,20 @@ namespace Yuzu
     void World::RenderWorld()
     {
         
-        auto RenderingGroup = GetWorld()->m_Registry.group<TransformComponent, TexturedSpriteComponent>();
-        for (auto RenderingEntity : RenderingGroup)
         {
-            auto [Transform, Sprite] = RenderingGroup.get<TransformComponent, TexturedSpriteComponent>(RenderingEntity);
+            auto TSRenderingGroup = GetWorld()->m_Registry.group<TransformComponent, SpriteComponent>();
+           
+            for (auto [RenderingEntity, Trans, Sprite] : TSRenderingGroup.each())
+            {
+                
+                Renderer2D::DrawSprite(Trans, Sprite);
 
-            Renderer2D::DrawSprite(Transform, Sprite);
+            }
 
         }
 
+
+        
     }
     
     void World::OnUpdate(float DeltaTime)
@@ -44,13 +49,7 @@ namespace Yuzu
 
 
         
-        auto& KeyInp = InputListener::GetKeysPressed();
 
-        auto InputView = m_Registry.view<InputComponent>();
-        InputView.each([&KeyInp](InputComponent& InputCmp)
-            {
-                InputCmp.BroadcastKeyInput(KeyInp);
-            });
     }
         
 

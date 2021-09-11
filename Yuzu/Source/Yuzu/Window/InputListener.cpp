@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "InputListener.h"
-
+#include "World/Components/InputComponent.h"
 
 static void cursor_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -21,16 +21,13 @@ namespace Yuzu
 	GLFWwindow* InputListener::s_ListeningWindow;
 	std::unordered_map<InputKey, KeyState> InputListener::s_KeyBinds;
 	glm::dvec2 InputListener::s_MousePos;
-
-	void InputListener::AddListeningKey(InputKey key)
-	{
-		s_KeyBinds[key] = KeyState::Released;
-	}
+	std::list<InputComponent*> InputListener::s_InputComps;
 
 	void InputListener::SetListeningWindow(GLFWwindow* window, int MinNumOfInputs)
 	{
 		s_KeyBinds.clear();
 		s_KeyBinds.reserve(MinNumOfInputs);
+		
 		s_ListeningWindow = window;
 		glfwSetKeyCallback(s_ListeningWindow, key_callback);
 		glfwSetMouseButtonCallback(s_ListeningWindow, mouse_button_callback);
@@ -41,12 +38,24 @@ namespace Yuzu
 	std::unordered_map<InputKey, KeyState>& InputListener::GetKeysPressed()
 	{
 		return s_KeyBinds;
-	} 
+	}
+	KeyState InputListener::GetKeyState(InputKey key)
+	{
+
+		return (KeyState)glfwGetKey(s_ListeningWindow, (int)key);
+		
+		
+	}
+
 
 
 	void InputListener::UpdateKey(InputKey key, KeyState Action)
 	{
-		s_KeyBinds[key] = Action;
+		for (auto& Comp : s_InputComps)
+		{
+			Comp->Call(key, Action);
+		}
+		
 	}
 
 	void InputListener::UpdateCursor(double* x, double* y)
@@ -54,6 +63,16 @@ namespace Yuzu
 		s_MousePos.x = *x;
 		s_MousePos.y = *y;
 
+	}
+
+	void InputListener::_SetInputComp(InputComponent* comp)
+	{
+		s_InputComps.push_back(comp);
+	}
+
+	void InputListener::_DelInputComp(InputComponent* comp)
+	{
+		s_InputComps.remove(comp);
 	}
 
 }

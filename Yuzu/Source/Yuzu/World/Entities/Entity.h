@@ -1,7 +1,7 @@
 #pragma once
 #include "Yuzu/World/World.h"
 
-#define Entity_Function(F) reinterpret_cast<void(Entity::*)(void)>(&F)
+#define Entity_Keybind(F) reinterpret_cast<void(Yuzu::Entity::*)(Yuzu::KeyState)>(&F)
 
 namespace Yuzu
 {
