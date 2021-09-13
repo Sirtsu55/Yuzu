@@ -1,12 +1,10 @@
 ﻿#include "Core.h"
 
 #include "InputListener.h"
-#include "JobHandler.h"
 #include "Window.h"
 #include "Rendering/Renderer/Renderer.h"
 #include "World/World.h"
 #include "Rendering/Objects/Shader.h"
-#include "Rendering/Objects/ResourceHandler.h"
 
 
 namespace Yuzu
@@ -90,24 +88,12 @@ namespace Yuzu
 	{
 	}
 	
-	
-	static void ReadAndCreateShader(void* SrcDest)
-	{
-		Shader* Dest = ReCast<Shader*>(SrcDest);
-		Dest->Src = CoreShader::ParseShader(Dest->Path);
-
-		Renderer2D::QueueShaderCreation(Dest);
-	}
 
 	void Window::MainLoop()
 	{
 
 		Yuzu::SimpleTimer FrameTimer;
 
-		JobHandler Jobs;
-		Shader sh;
-		sh.Path = "Resources/Shaders/LightDemo2D.glsl";
-		ResourceHandler::CreateShader(sh);
 		
 		
 		
@@ -133,7 +119,6 @@ namespace Yuzu
 			SwapBuffers();
 			
 
-			Renderer2D::MakeOpenGLCalls();
 			World::FrameTimeStep.Seconds = FrameTimer.Endf(Yuzu::TimerAccuracy::Seconds);
 			World::FrameTimeStep.Milliseconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MilliSec);
 			World::FrameTimeStep.MicroSeconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MicroSec);

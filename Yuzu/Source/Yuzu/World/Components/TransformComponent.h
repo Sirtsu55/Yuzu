@@ -28,10 +28,14 @@ namespace Yuzu
 			Transform = glm::translate(Transform, NewLocation);
 		}
 
+
+		//Multiplies the Transform by the given scale
 		void SetSize(float scale)
 		{
 			Transform = glm::scale(Transform, glm::vec3(scale));
 		}
+
+		//Multiplies the Transform by the given scale
 		void SetSize(glm::vec3 scale)
 		{
 			Transform = glm::scale(Transform, scale);

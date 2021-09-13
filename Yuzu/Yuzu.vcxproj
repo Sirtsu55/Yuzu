@@ -179,8 +179,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Yuzu\Rendering\Objects\ResourceHandler.h" />
-    <ClInclude Include="Source\Yuzu\Window\JobHandler.h" />
+    <ClInclude Include="Source\Yuzu\Timer\FuncTimer.h" />
     <ClInclude Include="Source\Yuzu\Window\InputKeys.h" />
     <ClInclude Include="Source\Yuzu\Window\InputListener.h" />
     <ClInclude Include="Source\Yuzu\World\CameraHandler.h" />
@@ -209,7 +208,6 @@
     <ClInclude Include="Source\Yuzu\Timer\TimerWriter.h" />
     <ClInclude Include="Source\Yuzu\World\Components\Components.h" />
     <ClInclude Include="Source\Yuzu\World\Entities\TagEntity.h" />
-    <ClInclude Include="Source\Yuzu\Timer\TimerHandler.h" />
     <ClInclude Include="Vendor\fmt\chrono.h" />
     <ClInclude Include="Vendor\fmt\color.h" />
     <ClInclude Include="Vendor\fmt\compile.h" />
@@ -477,8 +475,7 @@
     <ClInclude Include="Source\Yuzu\World\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Yuzu\Rendering\Objects\ResourceHandler.cpp" />
-    <ClCompile Include="Source\Yuzu\Window\JobHandler.cpp" />
+    <ClCompile Include="Source\Yuzu\Timer\FuncTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Window\InputListener.cpp" />
     <ClCompile Include="Source\EntryPoint.h">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -517,7 +514,6 @@
     <ClCompile Include="Source\Yuzu\Timer\SimpleTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Window\Window.cpp" />
     <ClCompile Include="Source\Yuzu\Timer\TimerWriter.cpp" />
-    <ClCompile Include="Source\Yuzu\Timer\TimerHandler.cpp" />
     <ClCompile Include="Vendor\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

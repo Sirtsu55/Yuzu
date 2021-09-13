@@ -32,7 +32,7 @@ void SandboxApp::OnUpdate(float DeltaTime)
 {
 
 
-
+	Yuzu::_FuncTimerCore::UpdateTimers();
 	m_World->OnUpdate(DeltaTime);
 }
 

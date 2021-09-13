@@ -894,13 +894,7 @@
     <ClInclude Include="Source\Yuzu\World\CameraHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Yuzu\Window\JobHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Yuzu\Rendering\Objects\ResourceHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Yuzu\Timer\TimerHandler.h">
+    <ClInclude Include="Source\Yuzu\Timer\FuncTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -992,13 +986,7 @@
     <ClCompile Include="Source\Yuzu\World\CameraHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Yuzu\Window\JobHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Yuzu\Rendering\Objects\ResourceHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Yuzu\Timer\TimerHandler.cpp">
+    <ClCompile Include="Source\Yuzu\Timer\FuncTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

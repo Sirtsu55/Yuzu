@@ -22,6 +22,8 @@ public:
 	void MoveRight(Yuzu::KeyState State);
 	void UpdateMovement();
 	void Jump(Yuzu::KeyState State);
+
+	bool ScaleSlow();
 private:
 	Yuzu::TagComponent* m_Name;
 	Yuzu::CameraComponent* m_Camera;
@@ -32,7 +34,6 @@ private:
 	bool m_Showed = false;
 	float m_Speed = 4.0f;
 	float m_JumpSpeed = 0.0f;
-	float m_JumpMaxHeight = 5.0f;
-
+	float m_Scale = 2.0f;
 };
 

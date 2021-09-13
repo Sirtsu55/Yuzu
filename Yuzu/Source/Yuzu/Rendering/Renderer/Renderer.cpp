@@ -4,7 +4,6 @@
 
 namespace Yuzu
 {	
-	std::queue<Job> Renderer2D::OpenGLCalls;
 
 
 	void Renderer2D::Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::CoreShader& CoreShader)
@@ -75,10 +74,6 @@ namespace Yuzu
 	}
 
 
-	void Renderer2D::QueueShaderCreation(Shader* ShaderSet)
-	{
-		OpenGLCalls.emplace(&Renderer2D::CreateShader, (void*)ShaderSet);
-	}
 
 
 
@@ -96,16 +91,7 @@ namespace Yuzu
 
 		
 	}	
-	
-	void Renderer2D::MakeOpenGLCalls()
-	{
-		while (!OpenGLCalls.empty())
-		{
-			OpenGLCalls.front().Call();
-			OpenGLCalls.pop();
-		}
 
-	}
 
 	//-----------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------

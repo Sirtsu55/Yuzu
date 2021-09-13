@@ -3,7 +3,6 @@
 #include "Yuzu/Rendering/Objects/ElementBuffer.h"
 #include "Yuzu/Rendering/Objects/Shader.h"
 #include "Yuzu/World/Components/Components.h"
-#include "Yuzu/Window/JobHandler.h"
 
 namespace Yuzu
 {
@@ -39,19 +38,17 @@ namespace Yuzu
 		static DefaultTexturedQuad TexturedSquare;
 
 
-		static std::queue<Job> OpenGLCalls;
 
 		static void CreateShader(void* Dest);
 	public:
 		static void InitializeDefaults();
-		static void MakeOpenGLCalls();
+
 
 		static void DrawSprite(TransformComponent Transform, SpriteComponent Sprite);
 
 		static void Draw(const Yuzu::VertexArray& VertArr, const Yuzu::ElementBuffer& ElementBuf, const Yuzu::CoreShader& CoreShader);
 		static void Clear();
 
-		static void QueueShaderCreation(Shader* ShaderDest);
 
 
 		

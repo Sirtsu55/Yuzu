@@ -10,6 +10,7 @@
 #include "Yuzu/World/Components/Components.h"
 #include "Yuzu/Rendering/Renderer/Renderer.h"
 #include "Yuzu/Rendering/Renderer/BatchRenderer.h"
+#include "Yuzu/Timer/FuncTimer.h"
 
 
 #define YZ_APPLICATION(ClassName) Yuzu::Application* Yuzu::CreateApplication() { return new ClassName(); } 
