@@ -29,19 +29,49 @@ namespace Yuzu
 		}
 
 
-		//Multiplies the Transform by the given scale
+		//Sets the Transform by the given scale
 		void SetSize(float scale)
+		{
+			Transform[0][0] = scale;
+			Transform[1][1] = scale;
+			Transform[2][2] = scale;
+		}
+
+		//Sets the Transform by the given scale
+		void SetSize(glm::vec3 scale)
+		{
+			Transform[0][0] = scale.x;
+			Transform[1][1] = scale.y;
+			Transform[2][2] = scale.x;
+		}
+
+		//Adds the Transform by the given scale
+		void AddSize(float scale)
+		{
+			Transform[0][0] += scale;
+			Transform[1][1] += scale;
+			Transform[2][2] += scale;
+		}
+
+		//Adds the Transform by the given scale
+		void AddSize(glm::vec3 scale)
+		{
+			Transform[0][0] += scale.x;
+			Transform[1][1] += scale.y;
+			Transform[2][2] += scale.x;
+		}
+		void MulSize(float scale)
 		{
 			Transform = glm::scale(Transform, glm::vec3(scale));
 		}
 
 		//Multiplies the Transform by the given scale
-		void SetSize(glm::vec3 scale)
+		void MulSize(glm::vec3 scale)
 		{
 			Transform = glm::scale(Transform, scale);
 		}
+		
 		glm::mat4 Transform;
-
 	};
 
 }

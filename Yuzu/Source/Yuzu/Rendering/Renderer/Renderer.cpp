@@ -109,7 +109,7 @@ namespace Yuzu
 
 	void Renderer2D::InitializeDefaults()
 	{
-		float TriangleVertices[] = { -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.0f, 0.0f };
+		float TriangleVertices[] = { -0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f };
 		unsigned char TriangleIndices[] = {0, 1, 2};
 		float SquareVertices[] = { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f };
 		unsigned char SquareIndices[] = { 0, 1, 2, 1, 2, 3 };
