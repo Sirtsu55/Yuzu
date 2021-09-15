@@ -2,6 +2,8 @@
 
 #include "Yuzu.h"
 #include "Yuzu/World/Entities/TagEntity.h"
+#include "Square.h"
+
 
 class MyEntity : public Yuzu::TagEntity
 {
@@ -20,9 +22,8 @@ public:
 	void MoveDown(Yuzu::KeyState State);
 	void MoveLeft(Yuzu::KeyState State);
 	void MoveRight(Yuzu::KeyState State);
-	void UpdateMovement();
-	void Jump(Yuzu::KeyState State);
-
+	void ScaleTriangle(Yuzu::KeyState State);
+	void SpawnSquare(Yuzu::KeyState State);
 	bool ScaleSlow();
 private:
 	Yuzu::TagComponent* m_Name;
@@ -35,5 +36,7 @@ private:
 	float m_Speed = 4.0f;
 	float m_JumpSpeed = 0.0f;
 	float m_Scale = 2.0f;
+
+	std::vector<Uptr<Square>> m_Squares;
 };
 

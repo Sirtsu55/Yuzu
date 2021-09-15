@@ -29,21 +29,24 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
-	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::Jump));
+	Inputs.AddKeybind(Yuzu::InputKey::MouseButtonLeft, Entity_Keybind(MyEntity::ScaleTriangle));
+	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::SpawnSquare));
 }
 
 
 
 void MyEntity::Update(float DeltaTime)
 {
-
+	glm::vec3 CLoc = m_Camera->GetLocation();
+	CLoc.z -= 5.0f;
+	m_TransComp->SetLocation(CLoc);
 	
 	m_InputComp->UpdateContinuousKeys();
 }
 
 
 
-void MyEntity::Jump(Yuzu::KeyState State)
+void MyEntity::ScaleTriangle(Yuzu::KeyState State)
 {
 	if (State == Yuzu::KeyState::Pressed)
 	{
@@ -51,8 +54,19 @@ void MyEntity::Jump(Yuzu::KeyState State)
 	}
 }
 
+void MyEntity::SpawnSquare(Yuzu::KeyState State)
+{
+	if (State == Yuzu::KeyState::Pressed)
+	{
+		glm::vec3 SpawnLoc = m_Camera->GetLocation();
+		SpawnLoc.z -= 5.0f;
+		m_Squares.push_back(CreateUptr<Square>(SpawnLoc, glm::vec3(0.0f, 0.5f, 0.1f)));
+	}
+}
+
 bool MyEntity::ScaleSlow()
 {
+	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
 	if (m_Scale > 4.0f)
 	{
 		return false;

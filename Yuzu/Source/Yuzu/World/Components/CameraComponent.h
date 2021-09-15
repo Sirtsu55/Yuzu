@@ -21,7 +21,7 @@ namespace Yuzu
             CameraPos += Direction;
         }
 
-
+        inline glm::vec3 GetLocation() const { return CameraPos; }
 
     private:
 
@@ -30,8 +30,6 @@ namespace Yuzu
         glm::vec3 CameraFront;
         glm::vec3 CameraUp;
 
-        double m_LastX;
-        double m_LastY;
 
         float m_pitch;
         float m_yaw;
@@ -51,7 +49,6 @@ namespace Yuzu
             m_FOV = FOV;
             Projection = glm::perspective(m_FOV, (float)(Window::Width / Window::Height), 0.1f, 100.0f); 
         }
-        glm::vec3 GetLocation() const { return CameraPos; }
 
 
 

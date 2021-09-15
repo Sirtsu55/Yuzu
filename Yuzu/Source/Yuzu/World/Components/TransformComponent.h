@@ -25,7 +25,18 @@ namespace Yuzu
 
 		void SetLocation(const glm::vec3& NewLocation)
 		{
+
+			Transform[3][0] = NewLocation.x;
+			Transform[3][1] = NewLocation.y;
+			Transform[3][2] = NewLocation.z;
+
+			
+		}
+		void TranslateToLocation(const glm::vec3& NewLocation)
+		{
 			Transform = glm::translate(Transform, NewLocation);
+
+			
 		}
 
 
