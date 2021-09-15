@@ -73,7 +73,7 @@ namespace Yuzu
 		{
 			return m_World->m_Registry.valid(m_EntityID);
 		}
-		virtual void Update(float DeltaTime) = 0;
+		virtual void Update(float DeltaTime) {};
 
 
 
