@@ -32,11 +32,17 @@ namespace Yuzu
 
 			
 		}
+
+		inline glm::vec3 GetLocation()
+		{
+			return glm::vec3(
+				Transform[3][0],
+				Transform[3][1],
+				Transform[3][2]);
+		}
 		void TranslateToLocation(const glm::vec3& NewLocation)
 		{
 			Transform = glm::translate(Transform, NewLocation);
-
-			
 		}
 
 

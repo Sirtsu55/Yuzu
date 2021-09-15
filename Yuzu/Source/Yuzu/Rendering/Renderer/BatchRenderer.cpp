@@ -4,13 +4,14 @@
 
 namespace Yuzu
 {
+	unsigned int BatchRenderer2D::DefaultQuadIndicesLayout[6] = { 0, 1, 2, 1, 2, 3 };
 
 	BatchRenderer2D::BatchRenderer2D(const BatchSettings& Settings)
 	{
 		m_Settings = Settings;
-		m_Shader = new CoreShader(m_Settings.m_ShaderPath);
+		m_Shader = new CoreShader(m_Settings.ShaderPath);
 
-		m_VerticesPtr = new Vertex[m_Settings.MaxQuads];
+		m_VerticesPtr = new Vertex[m_Settings.MaxVerts];
 		m_IndicesPtr = new unsigned int[m_Settings.MaxIndices];
 
 		{
@@ -28,6 +29,8 @@ namespace Yuzu
 
 			delete[] Samplers;
 		}
+
+
 		glGenVertexArrays(1, &m_VAO);
 		glGenBuffers(1, &m_VBO);
 		glGenBuffers(1, &m_EBO);
@@ -35,7 +38,7 @@ namespace Yuzu
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
-		glBufferData(GL_ARRAY_BUFFER, m_Settings.MaxQuads * sizeof(Vertex), NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_Settings.MaxVerts * sizeof(Vertex), NULL, GL_DYNAMIC_DRAW);
 
 		
 
@@ -103,7 +106,7 @@ namespace Yuzu
 
 	const VertexID BatchRenderer2D::InsertVertices(Vertex* NewVertices, unsigned int NumOfVertices, unsigned int* NewIndices, unsigned int NumOfIndices)
 	{
-		if ( ( (m_VerticesFilled + NumOfVertices) > m_Settings.MaxQuads) || (( m_IndicesFilled + NumOfIndices) > m_Settings.MaxIndices))
+		if ( ( (m_VerticesFilled + NumOfVertices) > m_Settings.MaxVerts) || (( m_IndicesFilled + NumOfIndices) > m_Settings.MaxIndices))
 		{
 			YZC_CRITICAL("Too Many Vertices To Insert LINE:{0}, FILE:{1}", __LINE__, __FILE__);
 		}
@@ -130,7 +133,6 @@ namespace Yuzu
 		for (unsigned int i = 0; i < NumOfIndices; i++)
 		{
 			Destination[i] = IndicesLayout[i] + m_IndicesOffset;
-			m_IndicesFilled++;
 		}
 		m_IndicesOffset += MaxIndex;
 		

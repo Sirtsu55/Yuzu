@@ -12,14 +12,13 @@ namespace Yuzu
 		float TexID;
 	};
 	
-	
 
 	
 	struct BatchSettings
 	{
-		unsigned int MaxQuads;
+		unsigned int MaxVerts;
 		unsigned int MaxIndices;
-		const char* m_ShaderPath;
+		const char* ShaderPath;
 
 	};
 
@@ -90,6 +89,8 @@ namespace Yuzu
 		void CreateIndices(unsigned int* Destination, const unsigned int* IndicesLayout, unsigned int NumOfIndices, unsigned int MaxIndex);
 
 		void Flush();
+
+		static unsigned int DefaultQuadIndicesLayout[6];
 
 	};
 

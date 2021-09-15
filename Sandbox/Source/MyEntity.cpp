@@ -9,13 +9,13 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	AddComponent<Yuzu::TransformComponent>();
 
 	AddComponent<Yuzu::TickComponent>(this);
-	AddComponent<Yuzu::SpriteComponent>(glm::vec4(0.76f, 0.1f, 0.1f, 1.0f), Yuzu::PrimitiveShape::Triangle);
-
+	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/TexturedBasic2D.glsl");
+	
+	Sptr<Yuzu::Texture> Tex = CreateSptr<Yuzu::Texture>("Resources/SpaceShip.png");
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
 	Yuzu::CameraComponent& Camera = AddComponent<Yuzu::CameraComponent>(glm::vec3(0.0f, 0.0f, 5.0f));
 	Yuzu::CameraHandler::Activate(&Camera);
-	
 	
 	m_Name = GetPtrToComponent<Yuzu::TagComponent>();
 	m_Camera = GetPtrToComponent<Yuzu::CameraComponent>();
@@ -23,7 +23,7 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	
-
+	m_SpriteComp->InsertTexture(Tex, 0);
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
@@ -31,6 +31,9 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
 	Inputs.AddKeybind(Yuzu::InputKey::MouseButtonLeft, Entity_Keybind(MyEntity::ScaleTriangle));
 	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::SpawnSquare));
+
+
+
 }
 
 
@@ -40,7 +43,7 @@ void MyEntity::Update(float DeltaTime)
 	glm::vec3 CLoc = m_Camera->GetLocation();
 	CLoc.z -= 5.0f;
 	m_TransComp->SetLocation(CLoc);
-	
+
 	m_InputComp->UpdateContinuousKeys();
 }
 
@@ -60,7 +63,7 @@ void MyEntity::SpawnSquare(Yuzu::KeyState State)
 	{
 		glm::vec3 SpawnLoc = m_Camera->GetLocation();
 		SpawnLoc.z -= 5.0f;
-		m_Squares.push_back(CreateUptr<Square>(SpawnLoc, glm::vec3(0.0f, 0.5f, 0.1f)));
+		
 	}
 }
 

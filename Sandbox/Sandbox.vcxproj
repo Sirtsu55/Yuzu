@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Projectile.cpp" />
     <ClCompile Include="Source\MyEntity.cpp" />
     <ClCompile Include="Source\SandboxApplicaton.cpp" />
     <ClCompile Include="Source\Square.cpp" />
@@ -166,6 +167,7 @@
     <None Include="Resources\Shaders\Triangle.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Projectile.h" />
     <ClInclude Include="Source\MyEntity.h" />
     <ClInclude Include="Source\SandboxApplication.h" />
     <ClInclude Include="Source\Square.h" />

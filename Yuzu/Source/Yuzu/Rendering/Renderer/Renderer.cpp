@@ -124,14 +124,14 @@ namespace Yuzu
 
 		Triangle.CoreShader = Basic2DShader;
 		Triangle.VAO = CreateUptr<VertexArray>();
-		Triangle.VBO = CreateUptr<VertexBuffer>(TriangleVertices, sizeof(TriangleVertices), GL_STATIC_DRAW);
+		Triangle.VBO = CreateUptr<VertexBuffer>(PtrToArr(TriangleVertices), (unsigned int)sizeof(TriangleVertices), GL_STATIC_DRAW);
 		Triangle.EBO = CreateUptr<ElementBuffer>(TriangleIndices, 3, GL_STATIC_DRAW, GL_UNSIGNED_BYTE);
 		Triangle.VAO->AddBuffer(*(Triangle.VBO.get()), PrimitiveLayout);
 
 
 		Square.CoreShader = Basic2DShader;
 		Square.VAO = CreateUptr<VertexArray>();
-		Square.VBO = CreateUptr<VertexBuffer>(SquareVertices, sizeof(SquareVertices), GL_STATIC_DRAW);
+		Square.VBO = CreateUptr<VertexBuffer>(PtrToArr(SquareVertices), (unsigned int)sizeof(SquareVertices), GL_STATIC_DRAW);
 		Square.EBO = CreateUptr<ElementBuffer>(SquareIndices, 6, GL_STATIC_DRAW, GL_UNSIGNED_BYTE);
 
 		Square.VAO->AddBuffer(*(Square.VBO.get()), PrimitiveLayout);
@@ -149,7 +149,7 @@ namespace Yuzu
 		PrimitiveLayout.Push<float>(2);
 
 		TexturedSquare.VAO = CreateUptr<VertexArray>();
-		TexturedSquare.VBO = CreateUptr<VertexBuffer>(TexturedSquareVertices, sizeof(TexturedSquareVertices), GL_STATIC_DRAW);
+		TexturedSquare.VBO = CreateUptr<VertexBuffer>(PtrToArr(TexturedSquareVertices), (unsigned int)sizeof(TexturedSquareVertices), GL_STATIC_DRAW);
 		TexturedSquare.EBO = CreateUptr<ElementBuffer>(SquareIndices, 6, GL_STATIC_DRAW, GL_UNSIGNED_BYTE);
 		TexturedSquare.VAO->AddBuffer(*(TexturedSquare.VBO.get()), PrimitiveLayout);
 

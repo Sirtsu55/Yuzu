@@ -81,6 +81,13 @@ constexpr Uptr<T> CreateUptr(Args&& ... args)
 
 #define ReCast reinterpret_cast
 
+
+//---------------------------------------
+//Stack Array Pointer 
+//---------------------------------------
+
+#define PtrToArr(X) &X[0]
+
 //---------------------------------------
 //Logging
 //---------------------------------------

@@ -11,7 +11,7 @@ YZ_APPLICATION(SandboxApp);
 void SandboxApp::Init()
 {
 
-	Yuzu::WindowInitSettings WindowSettings = { "SandBox", 720, 1024, glm::vec4(0.32f, 0.12f, 0.25f, 1.0f), glm::vec2(16, 9) };
+	Yuzu::WindowInitSettings WindowSettings = { "SandBox", 1080, 1920, glm::vec4(0.32f, 0.12f, 0.25f, 1.0f), glm::vec2(16, 9) };
 	ApplicationWindow = CreateSptr<Yuzu::Window>(WindowSettings);
 	ApplicationWindow->SetApplication(this);
 	m_World = CreateSptr<Yuzu::World>();

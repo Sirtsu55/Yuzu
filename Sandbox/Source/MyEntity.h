@@ -2,7 +2,7 @@
 
 #include "Yuzu.h"
 #include "Yuzu/World/Entities/TagEntity.h"
-#include "Square.h"
+#include "Projectile.h"
 
 
 class MyEntity : public Yuzu::TagEntity
@@ -37,6 +37,5 @@ private:
 	float m_JumpSpeed = 0.0f;
 	float m_Scale = 2.0f;
 
-	std::vector<Uptr<Square>> m_Squares;
 };
 
