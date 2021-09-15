@@ -23,7 +23,6 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	
-	m_TransComp->SetSize(glm::vec3(1.0f, 2.0f, 1.0f));
 
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
@@ -59,12 +58,13 @@ void MyEntity::SpawnSquare(Yuzu::KeyState State)
 bool MyEntity::ScaleSlow()
 {
 	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
-	if (m_Scale > 3.0f)
+	if (m_Scale > 4.0f)
 	{
 		return false;
 	}
+	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
 	YZA_CRITICAL(m_Scale);
-	m_TransComp->SetSize(1.0f + Yuzu::World::GetTimeStep().Seconds);
+	m_TransComp->AddSize(Yuzu::World::GetTimeStep().Seconds);
 	return true;
 }
 
