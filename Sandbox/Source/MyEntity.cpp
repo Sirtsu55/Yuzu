@@ -30,7 +30,7 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
-	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::Jump));
+	Inputs.AddKeybind(Yuzu::InputKey::MouseButtonLeft, Entity_Keybind(MyEntity::ScaleTriangle));
 }
 
 
@@ -44,7 +44,7 @@ void MyEntity::Update(float DeltaTime)
 
 
 
-void MyEntity::Jump(Yuzu::KeyState State)
+void MyEntity::ScaleTriangle(Yuzu::KeyState State)
 {
 	if (State == Yuzu::KeyState::Pressed)
 	{
@@ -52,10 +52,14 @@ void MyEntity::Jump(Yuzu::KeyState State)
 	}
 }
 
+void MyEntity::SpawnSquare(Yuzu::KeyState State)
+{
+}
+
 bool MyEntity::ScaleSlow()
 {
 	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
-	if (m_Scale > 4.0f)
+	if (m_Scale > 3.0f)
 	{
 		return false;
 	}

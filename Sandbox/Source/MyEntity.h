@@ -20,9 +20,8 @@ public:
 	void MoveDown(Yuzu::KeyState State);
 	void MoveLeft(Yuzu::KeyState State);
 	void MoveRight(Yuzu::KeyState State);
-	void UpdateMovement();
-	void Jump(Yuzu::KeyState State);
-
+	void ScaleTriangle(Yuzu::KeyState State);
+	void SpawnSquare(Yuzu::KeyState State);
 	bool ScaleSlow();
 private:
 	Yuzu::TagComponent* m_Name;
