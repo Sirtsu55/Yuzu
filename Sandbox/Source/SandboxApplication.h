@@ -1,6 +1,8 @@
 #pragma once
 #include "Yuzu.h"
 #include "MyEntity.h"
+
+
 class SandboxApp : public Yuzu::Application
 {
 public:
@@ -12,7 +14,6 @@ public:
 
 	void OnDestroy() override;
 
-	//MyEntity m_Square = MyEntity();
 private:
 	Sptr<Yuzu::Window> m_Window;
 	Sptr<Yuzu::World> m_World;
