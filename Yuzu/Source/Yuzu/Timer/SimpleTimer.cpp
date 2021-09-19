@@ -116,46 +116,13 @@ namespace Yuzu
 
 	double GetElapsedSeconds()
 	{
-		std::chrono::duration<double, std::milli> Duration = std::chrono::high_resolution_clock::now() - ProgramStartTime;
+		std::chrono::duration<double, std::ratio<1, 1>> Duration = std::chrono::high_resolution_clock::now() - ProgramStartTime;
 
 		return Duration.count();
 	}
 
 
-	double GetElapsedSeconds(TimerAccuracy acc)
-	{
 
-		auto EndTime = std::chrono::high_resolution_clock::now();
-
-		switch (acc)
-		{
-		case TimerAccuracy::MilliSec:
-			{
-				std::chrono::duration<double, std::milli> Duration = EndTime - ProgramStartTime;
-				return Duration.count();
-				break;
-			}
-			case TimerAccuracy::MicroSec:
-			{
-				std::chrono::duration<double, std::micro> Duration = EndTime - ProgramStartTime;
-				return Duration.count();
-				break;
-			}
-			case TimerAccuracy::NanoSec:
-			{
-				std::chrono::duration<double, std::nano> Duration = EndTime - ProgramStartTime;
-				return Duration.count();
-				break;
-			}
-			case TimerAccuracy::Seconds:
-			{
-				std::chrono::duration<double> Duration = EndTime - ProgramStartTime;
-				return Duration.count();
-				break;
-			}
-		}
-		return -1;
-	}
 	
 
 }

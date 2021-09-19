@@ -48,7 +48,7 @@ namespace Yuzu
             });
 
 
-        
+        CameraHandler::Update();
 
     }
         

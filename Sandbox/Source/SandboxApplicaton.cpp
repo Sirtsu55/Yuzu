@@ -52,8 +52,10 @@ void SandboxApp::OnWidgetRender(float Deltatime)
 
 
 		ImGui::Begin(" ", 0, window_flags);
-		ImGui::Text("Camera", CamLoc.x, CamLoc.y, CamLoc.z);
+		ImGui::Text("Camera");
 		ImGui::Text("X: %f	Y: %f	Z: %f", CamLoc.x, CamLoc.y, CamLoc.z);
+		ImGui::Separator();
+		ImGui::Text("Time Elapsed: %f", Yuzu::GetElapsedSeconds());
 		ImGui::Endd();
 	}
 

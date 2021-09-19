@@ -100,7 +100,7 @@ namespace Yuzu
 
 		while (!glfwWindowShouldClose(m_window))
 		{
-			YZ_PROFILE("FrameTime");
+			YZ_PROFILE_NO_LOG("FrameTime");
 			FrameTimer.Start();
 
 

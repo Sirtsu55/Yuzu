@@ -121,15 +121,24 @@ constexpr Uptr<T> CreateUptr(Args&& ... args)
 #define PROFILING 1
 #if PROFILING
 	#define YZ_PROFILE(Name) Yuzu::ScopedTimer Timer##__LINE__(Name)
+	#define YZ_PROFILE_NO_LOG(Name) Yuzu::ScopedTimer Timer##__LINE__(Name, false)
+
 	#define YZ_PROFILE_FUNCTION() Yuzu::ScopedTimer Timer##__LINE__(__FUNCTION__)
-	#define YZ_PROFILE_FUNCTION_SIG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCSIG__)
+	#define YZ_PROFILE_FUNCTION_NO_LOG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCTION__)
+
+	#define YZ_PROFILE_FUNCTION_SIG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCSIG__, false)
+	#define YZ_PROFILE_FUNCTION_SIG_NO_LOG() Yuzu::ScopedTimer Timer##__LINE__(__FUNCSIG__, false)
 
 #else
 
-	#define YZ_PROFILE(Name)
-	#define YZ_PROFILE_FUNCTION()
-	#define YZ_PROFILE_FUNCTION_SIG()
+	#define YZ_PROFILE(Name) 
+	#define YZ_PROFILE_NO_LOG(Name) 
 
+	#define YZ_PROFILE_FUNCTION() 
+	#define YZ_PROFILE_FUNCTION_NO_LOG() 
+
+	#define YZ_PROFILE_FUNCTION_SIG()
+	#define YZ_PROFILE_FUNCTION_SIG_NO_LOG()
 #endif // PROFILING
 
 

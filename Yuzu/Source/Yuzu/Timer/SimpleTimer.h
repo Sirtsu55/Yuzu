@@ -34,7 +34,6 @@ namespace Yuzu
 		std::chrono::steady_clock::time_point EndTime;
 	};
 	double GetElapsedSeconds();
-	double GetElapsedSeconds(TimerAccuracy acc);
 }
 
 

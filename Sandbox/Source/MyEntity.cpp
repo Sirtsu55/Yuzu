@@ -33,7 +33,8 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::SpawnSquare));
 
 
-
+	Yuzu::CreateFunctionTimer<MyEntity>(1.0f, this, &MyEntity::ScaleSlow);
+	
 }
 
 
@@ -51,10 +52,7 @@ void MyEntity::Update(float DeltaTime)
 
 void MyEntity::ScaleTriangle(Yuzu::KeyState State)
 {
-	if (State == Yuzu::KeyState::Pressed)
-	{
-		Yuzu::CreateFunctionTimer<MyEntity>(1.0f, this, &MyEntity::ScaleSlow);
-	}
+
 }
 
 void MyEntity::SpawnSquare(Yuzu::KeyState State)
@@ -69,14 +67,13 @@ void MyEntity::SpawnSquare(Yuzu::KeyState State)
 
 bool MyEntity::ScaleSlow()
 {
-	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
-	if (m_Scale > 4.0f)
-	{
-		return false;
-	}
-	m_Scale +=  Yuzu::World::GetTimeStep().Seconds;
-	YZA_CRITICAL(m_Scale);
-	m_TransComp->AddSize(Yuzu::World::GetTimeStep().Seconds);
+
+	
+	
+	
+	m_TransComp->MulSize(1.5f);
+	
+
 	return true;
 }
 

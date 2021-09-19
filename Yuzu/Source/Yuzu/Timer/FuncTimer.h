@@ -21,7 +21,7 @@ namespace Yuzu
 		friend void CreateFunctionTimer(float TimeGap, T* Obj, bool(T::* Func)(void));
 
 
-		virtual bool Update();
+		virtual bool Update(const std::chrono::steady_clock::time_point& EndTime);
 	};
 
 	//Actual FuncTimer class 
@@ -37,7 +37,7 @@ namespace Yuzu
 
 	private:
 
-		bool Update() override;
+		bool Update(const std::chrono::steady_clock::time_point& EndTime) override;
 
 		T* m_Obj;
 		bool(T::* m_Func)(void);
@@ -58,13 +58,13 @@ namespace Yuzu
 	}
 
 	template<typename T>
-	bool _FuncTimer<T>::Update()
+	bool _FuncTimer<T>::Update(const std::chrono::steady_clock::time_point& EndTime)
 	{
-		auto EndTime = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> Duration = EndTime - m_LastTime;
+		std::chrono::duration<double, std::ratio<1, 1>> Duration = EndTime - m_LastTime;
 
 		if (Duration.count() > m_TGap)
 		{
+			m_LastTime = EndTime;
 			return (m_Obj->*m_Func)();
 		}
 		return true;
@@ -80,7 +80,7 @@ namespace Yuzu
 	void CreateFunctionTimer(float TimeGap, T* Obj, bool(T::* Func)(void))
 	{
 		//Creates a Timer that will be Added globally to the timer vector
-		_FuncTimer<T>* Tim = new _FuncTimer<T>(TimeGap, Obj, Func);
+ 		_FuncTimer<T>* Tim = new _FuncTimer<T>(TimeGap, Obj, Func);
 
 		_FuncTimerCore::s_Timers.push_back(Tim);
 	}

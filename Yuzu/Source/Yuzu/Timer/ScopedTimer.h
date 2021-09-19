@@ -9,10 +9,11 @@ namespace Yuzu
 	{
 		std::chrono::steady_clock::time_point m_StartTime;
 		const char* m_TimerName;
+		bool LogToConsole;
 		
 
 	public:
-		ScopedTimer(const char* Name);
+		ScopedTimer(const char* Name, bool logtoconsole = true);
 		~ScopedTimer();
 
 	};

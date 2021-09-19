@@ -30,15 +30,25 @@ namespace Yuzu
 			return glm::vec3(0.0f);
 		}
 		
-		glm::mat4 CameraHandler::GetViewProjMatrix()
+		const glm::mat4& CameraHandler::GetViewProjMatrix()
 		{
 			if (ActiveCamera)
 			{
-				return ActiveCamera->Projection * glm::lookAt(ActiveCamera->CameraPos, (ActiveCamera->CameraFront + ActiveCamera->CameraPos), ActiveCamera->CameraUp);
+				return ActiveCamera->ViewProjMat;
 
 			}
 			return glm::mat4(1.0f);
 		}
+
+		void CameraHandler::Update()
+		{
+			if (ActiveCamera)
+			{
+				ActiveCamera->UpdateMatrices();
+			}
+		}
+
+
 
 	
 }
