@@ -11,7 +11,6 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	AddComponent<Yuzu::TickComponent>(this);
 	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/TexturedBasic2D.glsl");
 	
-	Sptr<Yuzu::Texture> Tex = CreateSptr<Yuzu::Texture>("Resources/SpaceShip.png");
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
 	Yuzu::CameraComponent& Camera = AddComponent<Yuzu::CameraComponent>(glm::vec3(0.0f, 0.0f, 5.0f));
@@ -23,7 +22,9 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	
-	m_SpriteComp->InsertTexture(Tex, 0);
+	m_SpriteComp->Color = glm::vec4(1.0f);
+	m_SpriteComp->ShapeType = Yuzu::PrimitiveShape::Square;
+
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
@@ -71,10 +72,10 @@ bool MyEntity::ScaleSlow()
 	
 	
 	
-	m_TransComp->MulSize(1.5f);
+	//m_TransComp->MulSize(1.5f);
 	
 
-	return true;
+	return false;
 }
 
 

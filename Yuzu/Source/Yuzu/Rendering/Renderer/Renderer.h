@@ -3,6 +3,7 @@
 #include "Yuzu/Rendering/Objects/ElementBuffer.h"
 #include "Yuzu/Rendering/Objects/Shader.h"
 #include "Yuzu/World/Components/Components.h"
+#include "Yuzu/Rendering/Renderer/Lighter.h"
 
 namespace Yuzu
 {
@@ -39,7 +40,6 @@ namespace Yuzu
 
 
 
-		static void CreateShader(void* Dest);
 	public:
 		static void InitializeDefaults();
 

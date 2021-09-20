@@ -15,8 +15,8 @@ namespace Yuzu
 
 		SpriteComponent() = default;
 		SpriteComponent(const glm::vec4& color, PrimitiveShape shape) : Color(color), ShapeType(shape), Textured(false) {}
-		SpriteComponent(const std::string path) 
-			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path)), Textured(true) {}
+		SpriteComponent(const std::string path, bool Texed = false) 
+			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path)), Textured(Texed) {}
 
 		SpriteComponent(const SpriteComponent&) = default;
 		~SpriteComponent() = default;
