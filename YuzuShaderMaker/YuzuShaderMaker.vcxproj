@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +141,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ShaderTemplates\SpriteShader.glsl" />
+    <None Include="ShaderTemplates\Square.glsl" />
+    <None Include="ShaderTemplates\TexturedBasic2D.glsl" />
+    <None Include="ShaderTemplates\TexturedSquare.glsl" />
+    <None Include="ShaderTemplates\Triangle.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\fmt\args.h" />
+    <ClInclude Include="Source\fmt\chrono.h" />
+    <ClInclude Include="Source\fmt\color.h" />
+    <ClInclude Include="Source\fmt\compile.h" />
+    <ClInclude Include="Source\fmt\core.h" />
+    <ClInclude Include="Source\fmt\format-inl.h" />
+    <ClInclude Include="Source\fmt\format.h" />
+    <ClInclude Include="Source\fmt\locale.h" />
+    <ClInclude Include="Source\fmt\os.h" />
+    <ClInclude Include="Source\fmt\ostream.h" />
+    <ClInclude Include="Source\fmt\printf.h" />
+    <ClInclude Include="Source\fmt\ranges.h" />
+    <ClInclude Include="Source\fmt\xchar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
