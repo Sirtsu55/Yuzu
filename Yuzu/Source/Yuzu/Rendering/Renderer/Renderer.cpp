@@ -1,6 +1,6 @@
 #include "Core.h"
 #include "Renderer.h"
-
+#include "Lighter.h"
 
 namespace Yuzu
 {	
@@ -20,10 +20,16 @@ namespace Yuzu
 
 	void Renderer2D::DrawSprite(TransformComponent Transform, SpriteComponent Sprite)
 	{
+		if (!Lighter::Bound)
+		{
+
+		}
+
 		if (Sprite.Textured)
 		{
 			Sprite.SpriteShader->Bind();
 			Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
+			Square.CoreShader->SetInt("NumLights", Lighter::s_NumLights);
 			TexturedSquare.VAO->Bind();
 			TexturedSquare.EBO->Bind();
 			glDrawElements(GL_TRIANGLES, Square.EBO->GetCount(), Square.EBO->GetDataType(), NULL);
@@ -39,6 +45,7 @@ namespace Yuzu
 					Square.CoreShader->Bind();
 					Square.CoreShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
 					Square.CoreShader->SetVec4("iColor", Sprite.Color);
+					Square.CoreShader->SetInt("NumLights", Lighter::s_NumLights);
 					Square.VAO->Bind();
 					Square.EBO->Bind();
 					glDrawElements(GL_TRIANGLES, Square.EBO->GetCount(), Square.EBO->GetDataType(), NULL);
@@ -49,6 +56,7 @@ namespace Yuzu
 					Triangle.CoreShader->Bind();
 					Triangle.CoreShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
 					Triangle.CoreShader->SetVec4("iColor", Sprite.Color);
+					Triangle.CoreShader->SetInt("NumLights", Lighter::s_NumLights);
 					Triangle.VAO->Bind();
 					Triangle.EBO->Bind();
 					glDrawElements(GL_TRIANGLES, Triangle.EBO->GetCount(), Triangle.EBO->GetDataType(), NULL);
@@ -80,17 +88,7 @@ namespace Yuzu
 
 
 
-	void Renderer2D::CreateShader(void* Dest)
-	{
-		Shader* ShaderDest = ReCast<Shader*>(Dest);
-		
-		ShaderDest->shader = CreateSptr<CoreShader>(ShaderDest->Src);
-		YZC_TRACE("Created Shader With ProgramID of {}", ShaderDest->shader->GetProgram());
-		ShaderDest->Src.FragmentSource.clear();
-		ShaderDest->Src.VertexSource.clear();
 
-		
-	}	
 
 
 	//-----------------------------------------------------------------------------
@@ -156,6 +154,7 @@ namespace Yuzu
 
 
 
+		
 		
 
 	}

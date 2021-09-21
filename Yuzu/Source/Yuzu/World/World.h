@@ -13,11 +13,16 @@ namespace Yuzu
 
 	};
 
+	struct WorldInitSettings
+	{
+		unsigned int MaxLights;
+	};
+
 	class World
 	{
 	public:
+		World(const WorldInitSettings& Settings);
 		~World();
-		World();
 
 		void OnUpdate(float DeltaTime);
 		//Definition in Entity.cpp because of compile errors

@@ -14,7 +14,11 @@ void SandboxApp::Init()
 	Yuzu::WindowInitSettings WindowSettings = { "SandBox", 1080, 1920, glm::vec4(0.32f, 0.12f, 0.25f, 1.0f), glm::vec2(16, 9) };
 	ApplicationWindow = CreateSptr<Yuzu::Window>(WindowSettings);
 	ApplicationWindow->SetApplication(this);
-	m_World = CreateSptr<Yuzu::World>();
+
+	Yuzu::WorldInitSettings Wset = { 0 };
+	Wset.MaxLights = 100;
+
+	m_World = CreateSptr<Yuzu::World>(Wset);
 	Yuzu::World::SetAsCurrent(m_World);
 	Yuzu::Initialize();
 }
@@ -22,6 +26,13 @@ void SandboxApp::Init()
 void SandboxApp::Start()
 {
 	MyEntity Square = MyEntity(m_World.get(), Yuzu::PrimitiveShape::Square);
+
+	Yuzu::Light Lig;
+	Lig.Color = glm::vec3(1.0f);
+	Lig.Intensity = 1.0f;
+	Lig.Position = glm::vec3(0.0f);
+	auto Loc = Yuzu::Lighter::InsertLight(Lig);
+
 
 
 	Yuzu::RunGameLoop(ApplicationWindow);
