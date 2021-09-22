@@ -7,7 +7,7 @@ Square::Square(glm::vec3 location, glm::vec3 color)
 {
 	AddComponent<Yuzu::TransformComponent>();
 	GetComponent<Yuzu::TransformComponent>().SetLocation(location);
-	AddComponent<Yuzu::SpriteComponent>(glm::vec4(color, 1.0f), Yuzu::PrimitiveShape::Square);
+	AddComponent<Yuzu::SpriteComponent>(glm::vec4(color, 1.0f), Yuzu::Shape::Square);
 
 
 }

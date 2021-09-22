@@ -6,6 +6,7 @@ namespace Yuzu
 	struct Light
 	{
 		glm::vec3 Color;
+		float Radius;
 		glm::vec3 Position;
 		float Intensity;
 	};

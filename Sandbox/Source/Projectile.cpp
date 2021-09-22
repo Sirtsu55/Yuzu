@@ -3,7 +3,7 @@
 Projectile::Projectile(glm::vec3 Location)
 	:Entity(Yuzu::World::GetWorld())
 {
-	AddComponent<Yuzu::SpriteComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), Yuzu::PrimitiveShape::Square);
+	AddComponent<Yuzu::SpriteComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), Yuzu::Shape::Square);
 	AddComponent<Yuzu::TransformComponent>();
 	AddComponent<Yuzu::TickComponent>(this);
 

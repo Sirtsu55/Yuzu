@@ -25,13 +25,26 @@ void SandboxApp::Init()
 
 void SandboxApp::Start()
 {
-	MyEntity Square = MyEntity(m_World.get(), Yuzu::PrimitiveShape::Square);
+	MyEntity Square = MyEntity(m_World.get());
 
 	Yuzu::Light Lig;
-	Lig.Color = glm::vec3(1.0f);
-	Lig.Intensity = 1.0f;
-	Lig.Position = glm::vec3(0.0f);
+	Lig.Color = glm::vec3(0.0f, 1.0f, 0.0f);
+	Lig.Intensity = 0.5f;
+	Lig.Radius = 0.5f;
+	Lig.Position = glm::vec3(0.0f);	
+	Yuzu::Light Lig1;
+	Lig1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
+	Lig1.Intensity = 1.0f;
+	Lig1.Radius = 1.0f;
+	Lig1.Position = glm::vec3(0.0f);
+	Yuzu::Light Lig2;
+	Lig1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
+	Lig1.Intensity = 1.0f;
+	Lig1.Radius = 1.0f;
+	Lig1.Position = glm::vec3(0.0f);
+	auto Loc2 = Yuzu::Lighter::InsertLight(Lig2);
 	auto Loc = Yuzu::Lighter::InsertLight(Lig);
+	auto Loc1 = Yuzu::Lighter::InsertLight(Lig1);
 
 
 

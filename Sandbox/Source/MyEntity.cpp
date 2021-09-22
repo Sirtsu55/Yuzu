@@ -3,13 +3,13 @@
 
 Sptr<Yuzu::Texture> MyEntity::s_Texture = nullptr;
 
-MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
+MyEntity::MyEntity(Yuzu::World* World)
 	:TagEntity(World, "Mario")
 {
 	AddComponent<Yuzu::TransformComponent>();
 
 	AddComponent<Yuzu::TickComponent>(this);
-	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/TexturedBasic2D.glsl");
+	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/Triangle.glsl", Yuzu::Shape::CustomTriangle);
 	
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
@@ -22,19 +22,16 @@ MyEntity::MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape)
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	
-	m_SpriteComp->Color = glm::vec4(1.0f);
-	m_SpriteComp->ShapeType = Yuzu::PrimitiveShape::Square;
+	
 
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
-	Inputs.AddKeybind(Yuzu::InputKey::MouseButtonLeft, Entity_Keybind(MyEntity::ScaleTriangle));
-	Inputs.AddKeybind(Yuzu::InputKey::Space, Entity_Keybind(MyEntity::SpawnSquare));
 
 
-	Yuzu::CreateFunctionTimer<MyEntity>(1.0f, this, &MyEntity::ScaleSlow);
+
 	
 }
 
@@ -51,32 +48,9 @@ void MyEntity::Update(float DeltaTime)
 
 
 
-void MyEntity::ScaleTriangle(Yuzu::KeyState State)
-{
 
-}
 
-void MyEntity::SpawnSquare(Yuzu::KeyState State)
-{
-	if (State == Yuzu::KeyState::Pressed)
-	{
-		glm::vec3 SpawnLoc = m_Camera->GetLocation();
-		SpawnLoc.z -= 5.0f;
-		
-	}
-}
 
-bool MyEntity::ScaleSlow()
-{
-
-	
-	
-	
-	//m_TransComp->MulSize(1.5f);
-	
-
-	return false;
-}
 
 
 

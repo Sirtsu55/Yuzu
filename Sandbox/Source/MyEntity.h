@@ -14,7 +14,7 @@ public:
 
 	MyEntity() = default;
 	~MyEntity();
-	MyEntity(Yuzu::World* World, Yuzu::PrimitiveShape Shape);
+	MyEntity(Yuzu::World* World);
 
 	void Update(float DeltaTime) override;
 
@@ -22,9 +22,6 @@ public:
 	void MoveDown(Yuzu::KeyState State);
 	void MoveLeft(Yuzu::KeyState State);
 	void MoveRight(Yuzu::KeyState State);
-	void ScaleTriangle(Yuzu::KeyState State);
-	void SpawnSquare(Yuzu::KeyState State);
-	bool ScaleSlow();
 private:
 	Yuzu::TagComponent* m_Name;
 	Yuzu::CameraComponent* m_Camera;

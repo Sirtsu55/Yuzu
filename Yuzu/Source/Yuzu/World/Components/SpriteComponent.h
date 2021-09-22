@@ -3,9 +3,9 @@
 
 namespace Yuzu
 {
-	enum class PrimitiveShape : char
+	enum class Shape : char
 	{
-		Square, Triangle, Invalid
+		Square, Triangle, CustomSquare, CustomTriangle, Textured, Invalid
 	};
 
 	struct SpriteComponent
@@ -14,9 +14,9 @@ namespace Yuzu
 
 
 		SpriteComponent() = default;
-		SpriteComponent(const glm::vec4& color, PrimitiveShape shape) : Color(color), ShapeType(shape), Textured(false) {}
-		SpriteComponent(const std::string path, bool Texed = false) 
-			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path)), Textured(Texed) {}
+		SpriteComponent(const glm::vec4& color, Shape shape) : Color(color), ShapeType(shape) {}
+		SpriteComponent(const std::string path, Shape shape) 
+			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path)), ShapeType(shape){}
 
 		SpriteComponent(const SpriteComponent&) = default;
 		~SpriteComponent() = default;
@@ -35,19 +35,19 @@ namespace Yuzu
 
 		operator bool() const
 		{
-			if (Textured)
+			if (ShapeType == Shape::Textured || ShapeType == Shape::CustomSquare || ShapeType == Shape::CustomSquare)
 			{
 				return SpriteShader == nullptr ? false : true;
 			}
 			else
 			{
-				return ShapeType == PrimitiveShape::Invalid ? false : true;
+				return ShapeType == Shape::Invalid ? false : true;
 			}
 		}
 
 		void InsertTexture(Sptr<Texture> Texture, int slot)
 		{
-			if (Textured)
+			if (ShapeType == Shape::Textured)
 			{
 				SpriteShader->Bind();
 				SpriteShader->InsertTexture(Texture, slot);
@@ -56,11 +56,11 @@ namespace Yuzu
 			}
 		}
 
+		
 		bool Visible = true;
 		glm::vec4 Color = { 1.0f, 1.0f, 1.0f , 1.0f };
-		PrimitiveShape ShapeType = PrimitiveShape::Invalid;
+		Shape ShapeType = Shape::Invalid;
 		Sptr<CoreShader> SpriteShader = nullptr;
-		bool Textured;
 	private:
 	
 	};
