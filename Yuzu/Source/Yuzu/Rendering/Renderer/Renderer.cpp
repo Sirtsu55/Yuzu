@@ -131,6 +131,15 @@ namespace Yuzu
 		float SquareVertices[] = { -0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f };
 		unsigned char SquareIndices[] = { 0, 1, 2, 1, 2, 3 };
 
+		//for (int i = 0; i < 3; i++)
+		//{
+
+		//	float a = TriangleVertices[0 + i];
+		//	float b = TriangleVertices[1 + i];
+		//	float c = TriangleVertices[2 + i];
+
+		//	YZC_INFO("normals of Vert{0} = {1}, {2}, {3}", i, )
+		//}
 		VertexBufferLayout PrimitiveLayout;
 		PrimitiveLayout.Push<float>(3);
 

@@ -88,6 +88,13 @@ namespace Yuzu
 			Transform = glm::scale(Transform, scale);
 		}
 		
+
+		void Rotate(float angle, glm::vec3 axis)
+		{
+			Transform = glm::rotate(Transform, glm::radians(angle), axis);
+		}
+
+
 		glm::mat4 Transform;
 	};
 

@@ -53,6 +53,8 @@ namespace Yuzu
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 			return { LightBufferPtr };
 		}
+		YZC_CRITICAL("Lighter: MAX LIGHT LIMIT REACHED");
+		__debugbreak();
 		return { nullptr };
 	}
 

@@ -22,14 +22,13 @@ MyEntity::MyEntity(Yuzu::World* World)
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	
-	
+	m_SpriteComp->Color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
-
 
 
 	
