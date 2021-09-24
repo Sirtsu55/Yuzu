@@ -60,6 +60,10 @@ namespace Yuzu
     {
         glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
     }
+    void CoreShader::SetMat3(const char* name, const glm::mat3& matrix) const
+    {
+        glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+    }
 
     int CoreShader::GetUniformLocation(const char* name) const
     {

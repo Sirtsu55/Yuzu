@@ -9,7 +9,7 @@ MyEntity::MyEntity(Yuzu::World* World)
 	AddComponent<Yuzu::TransformComponent>();
 
 	AddComponent<Yuzu::TickComponent>(this);
-	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/Triangle.glsl", Yuzu::Shape::CustomTriangle);
+	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/Triangle.glsl", Yuzu::Shape::CustomSquare);
 	
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);

@@ -8,6 +8,11 @@
 namespace Yuzu
 {
 
+	struct PosNormVertex
+	{
+		glm::vec3 Pos;
+		glm::vec3 Normal = glm::vec3(0.0f);
+	};
 
 	class Renderer2D
 	{

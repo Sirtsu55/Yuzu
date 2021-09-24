@@ -5,25 +5,33 @@ layout (location = 0) in vec3 pos;
 layout (location = 1) in vec3 normal;
 
 uniform mat4 MVPMatrix;
+uniform mat4 ModelMatrix;
+uniform mat3 NormalMatrix;
+
 
 out vec3 Normal;
-out vec3 VertPos;
+out vec3 FragPos;
+
 
 vec4 Colorer()
 {
-	vec3 VertPos = pos;
-	vec3 Normal = vec3(1.0f);
 
-	return vec4(VertPos, 1.0f);
+	return vec4(pos, 1.0f);
 }
 
 //DO NOT TOUCH
 void main()
 {
-	gl_Position = MVPMatrix * Colorer(); 
+	vec4 VertexPos = Colorer();
+
+	FragPos = vec3(ModelMatrix * VertexPos);
+	Normal = NormalMatrix * normal;
+	gl_Position = MVPMatrix * VertexPos; 
 }
 
-//Implement Shader Here
+
+
+
 !Fragment!
 #version 450 core
 
@@ -41,8 +49,12 @@ layout (std430, binding = 0) buffer LightBuffer
 
 out vec4 FragColor;
 uniform vec4 iColor;
+
 in vec3 Normal;
-in vec3 VertPos;
+in vec3 FragPos;
+
+
+
 
 
 //Implement Shader Here
@@ -55,6 +67,7 @@ vec4 Colorer()
 //DO NOT TOUCH
 void main()
 {
-	FragColor = Colorer();
+	vec4 ImplColor = Colorer();
+	FragColor = ImplColor;
 }
 

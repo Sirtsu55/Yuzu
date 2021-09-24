@@ -35,14 +35,9 @@ namespace Yuzu
 
 		operator bool() const
 		{
-			if (ShapeType == Shape::Textured || ShapeType == Shape::CustomSquare || ShapeType == Shape::CustomSquare)
-			{
-				return SpriteShader == nullptr ? false : true;
-			}
-			else
-			{
-				return ShapeType == Shape::Invalid ? false : true;
-			}
+
+			return ShapeType == Shape::Invalid ? false : true;
+			
 		}
 
 		void InsertTexture(Sptr<Texture> Texture, int slot)

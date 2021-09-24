@@ -21,7 +21,8 @@ namespace Yuzu
 		static void Deactivate();
 		static glm::vec3 GetCameraLocation();
 
-		static const glm::mat4&  GetViewProjMatrix();
+		static const glm::mat4& GetViewProjMatrix();
+		static const glm::mat4& GetViewMatrix();
 
 		static void Update();
 	};

@@ -41,6 +41,7 @@ namespace Yuzu
 		void SetVec4(const char* name, const glm::vec4& value) const;
 		void SetVec3(const char* name, const glm::vec3& value) const;
 		void SetMat4(const char* name, const glm::mat4& matrix) const;
+		void SetMat3(const char* name, const glm::mat3& matrix) const;
 		int GetUniformLocation(const char* name) const;
 
 		void InsertTexture(Sptr<Texture> NewTex, unsigned char slot);

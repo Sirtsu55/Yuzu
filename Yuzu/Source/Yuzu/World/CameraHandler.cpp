@@ -39,6 +39,15 @@ namespace Yuzu
 			}
 			return glm::mat4(1.0f);
 		}
+		const glm::mat4& CameraHandler::GetViewMatrix()
+		{
+			if (ActiveCamera)
+			{
+				return ActiveCamera->ViewMat;
+
+			}
+			return glm::mat4(1.0f);
+		}
 
 		void CameraHandler::Update()
 		{
