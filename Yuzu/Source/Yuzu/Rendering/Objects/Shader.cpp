@@ -45,6 +45,13 @@ namespace Yuzu
 
     }
 
+    void CoreShader::SetUnsignedInt(const char* name, const unsigned int val)  const
+    {
+
+        glUniform1ui(GetUniformLocation(name), val);
+
+    }
+
     void CoreShader::SetVec4(const char* name, const glm::vec4& value) const
     {
         glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);

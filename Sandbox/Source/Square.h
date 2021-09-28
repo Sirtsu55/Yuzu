@@ -4,7 +4,7 @@
 class Square : public Yuzu::Entity
 {
 public:
-	Square(glm::vec3 location, glm::vec3 color);
+	Square(const glm::vec3& location, const glm::vec3& color);
 	~Square();
 
 

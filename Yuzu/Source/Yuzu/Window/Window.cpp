@@ -96,7 +96,6 @@ namespace Yuzu
 
 		
 		
-		
 
 		while (!glfwWindowShouldClose(m_window))
 		{
@@ -108,7 +107,6 @@ namespace Yuzu
 			Renderer2D::Clear();
 			glClearColor(m_Settings.BackgroundColor.x , m_Settings.BackgroundColor.y, m_Settings.BackgroundColor.z, m_Settings.BackgroundColor.w);
 
-
 			glfwPollEvents();
 			m_App->OnUpdate(Yuzu::World::FrameTimeStep.Seconds);
 			RenderWindow();
@@ -119,9 +117,9 @@ namespace Yuzu
 			SwapBuffers();
 			
 
-			World::FrameTimeStep.Seconds = FrameTimer.Endf(Yuzu::TimerAccuracy::Seconds);
-			World::FrameTimeStep.Milliseconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MilliSec);
-			World::FrameTimeStep.MicroSeconds = FrameTimer.Endf(Yuzu::TimerAccuracy::MicroSec);
+			World::FrameTimeStep.Seconds = FrameTimer.Endd(Yuzu::TimerAccuracy::Seconds);
+			World::FrameTimeStep.Milliseconds = FrameTimer.Endd(Yuzu::TimerAccuracy::MilliSec);
+			World::FrameTimeStep.MicroSeconds = FrameTimer.Endd(Yuzu::TimerAccuracy::MicroSec);
 		}
 	
 	}

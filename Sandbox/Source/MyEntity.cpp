@@ -4,7 +4,7 @@
 Sptr<Yuzu::Texture> MyEntity::s_Texture = nullptr;
 
 MyEntity::MyEntity(Yuzu::World* World)
-	:TagEntity(World, "Mario")
+	:TagEntity(World, "Mario"), sq(glm::vec3(1.0f, 0.0f, -15.0f), glm::vec3(1.0f))
 {
 	AddComponent<Yuzu::TransformComponent>();
 
@@ -13,7 +13,7 @@ MyEntity::MyEntity(Yuzu::World* World)
 	
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
-	Yuzu::CameraComponent& Camera = AddComponent<Yuzu::CameraComponent>(glm::vec3(0.0f, 0.0f, 5.0f));
+	Yuzu::CameraComponent& Camera = AddComponent<Yuzu::CameraComponent>(glm::vec3(0.0f, 0.0f, 10.0f));
 	Yuzu::CameraHandler::Activate(&Camera);
 	
 	m_Name = GetPtrToComponent<Yuzu::TagComponent>();
@@ -21,14 +21,17 @@ MyEntity::MyEntity(Yuzu::World* World)
 	m_SpriteComp = GetPtrToComponent<Yuzu::SpriteComponent>();
 	m_InputComp = GetPtrToComponent<Yuzu::InputComponent>();
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
+	m_TransComp->SetSize(3.0f);
 	
-	m_SpriteComp->Color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-
+	m_SpriteComp->Color = glm::vec4(1.00f, 0.45f, 0.00f, 1.0f);
+	
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::A, Entity_Keybind(MyEntity::MoveLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::D, Entity_Keybind(MyEntity::MoveRight));
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::Z, Entity_Keybind(MyEntity::RotateLeft));
+	Inputs.AddContinuousKeybind(Yuzu::InputKey::X, Entity_Keybind(MyEntity::RotateRight));
 
 
 	
@@ -38,10 +41,15 @@ MyEntity::MyEntity(Yuzu::World* World)
 
 void MyEntity::Update(float DeltaTime)
 {
-	glm::vec3 CLoc = m_Camera->GetLocation();
-	CLoc.z -= 5.0f;
-	m_TransComp->SetLocation(CLoc);
 
+	
+
+	//m_TransComp->RotateAngle(DeltaTime * 100, glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_Camera->RotateAngle(DeltaTime * 100, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	//glm::vec3 loc = m_Camera->GetLocation() - glm::vec3(0.0f, 0.0f, 10.0f);
+
+	//m_TransComp->SetLocation(loc);
 	m_InputComp->UpdateContinuousKeys();
 }
 
@@ -84,7 +92,20 @@ void MyEntity::MoveRight(Yuzu::KeyState State)
 	}
 }
 
-
+void MyEntity::RotateLeft(Yuzu::KeyState State)
+{
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->RotateAngle(Yuzu::World::GetTimeStep().Milliseconds * 0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+}
+void MyEntity::RotateRight(Yuzu::KeyState State)
+{
+	if (State == Yuzu::KeyState::Pressed || State == Yuzu::KeyState::Repeated)
+	{
+		m_Camera->RotateAngle(-Yuzu::World::GetTimeStep().Milliseconds * 0.1f, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+}
 
 
 

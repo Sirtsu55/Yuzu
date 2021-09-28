@@ -36,7 +36,10 @@ namespace Yuzu
 				Square.CoreShader->Bind();
 				Square.CoreShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
 				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
+				Square.CoreShader->SetMat3("NormalMatrix", NormMat);
+				Square.CoreShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
 				Square.CoreShader->SetVec4("iColor", Sprite.Color);
+				Square.CoreShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				Square.VAO->Bind();
 				Square.EBO->Bind();
@@ -47,8 +50,11 @@ namespace Yuzu
 			{
 				Triangle.CoreShader->Bind();
 				Triangle.CoreShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
+				Triangle.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
 				Triangle.CoreShader->SetMat3("NormalMatrix", NormMat);
+				Triangle.CoreShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Triangle.CoreShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
+
 				Triangle.CoreShader->SetVec4("iColor", Sprite.Color);
 				Triangle.VAO->Bind();
 				Triangle.EBO->Bind();
@@ -60,8 +66,10 @@ namespace Yuzu
 			{
 				Sprite.SpriteShader->Bind();
 				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
 				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
+				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				TexturedSquare.VAO->Bind();
 				TexturedSquare.EBO->Bind();
@@ -73,9 +81,11 @@ namespace Yuzu
 			{
 				Sprite.SpriteShader->Bind();
 				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
 				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
 				Sprite.SpriteShader->SetVec4("iColor", Sprite.Color);
+				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				Square.VAO->Bind();
 				Square.EBO->Bind();
@@ -86,9 +96,11 @@ namespace Yuzu
 			{
 				Sprite.SpriteShader->Bind();
 				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
 				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
 				Sprite.SpriteShader->SetVec4("iColor", Sprite.Color);
+				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 
 				Triangle.VAO->Bind();
@@ -137,23 +149,6 @@ namespace Yuzu
 	Renderer2D::DefaultTexturedQuad Renderer2D::TexturedSquare;
 		
 
-	template <typename T>
-	void CalculateSurfaceNormal(PosNormVertex* Verts, T* Indices, int NumOfIndices)
-	{
-		for (int i = 0; i < NumOfIndices; i += 3)
-		{
-			glm::vec3 V1 = Verts[Indices[i]].Pos - Verts[Indices[i + 1]].Pos;
-			glm::vec3 V2 = Verts[Indices[i]].Pos - Verts[Indices[i + 2]].Pos;
-
-			glm::vec3 Norm = glm::cross(V1, V2);
-
-			YZC_CRITICAL("{}, {}, {}", Norm.x, Norm.y, Norm.z);
-			Verts[Indices[i]].Normal = Norm;
-			Verts[Indices[i+1]].Normal = Norm;
-			Verts[Indices[i+2]].Normal = Norm;
-		}
-		
-	}
 
 
 	void Renderer2D::InitializeDefaults()
@@ -164,24 +159,22 @@ namespace Yuzu
 
 
 		PosNormVertex TriangleVertices[] = 
-		{	{ glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f) },
-			{ glm::vec3(0.0f, 0.5f, 0.0f  ), glm::vec3(0.0f) },
-			{ glm::vec3(0.5f, -0.5f, 0.0f ), glm::vec3(0.0f) }
+		{	{ glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f) },
+			{ glm::vec3(0.0f, 0.5f, 0.0f),   glm::vec3(0.0f, 0.0f, 1.0f) },
+			{ glm::vec3(0.5f, -0.5f, 0.0f),  glm::vec3(0.0f, 0.0f, 1.0f) }
 		};
 		unsigned char TriangleIndices[] = {0, 1, 2};
 
-		CalculateSurfaceNormal<unsigned char>(PtrToArr(TriangleVertices), PtrToArr(TriangleIndices), 3);
 
 		PosNormVertex SquareVertices[] = 
 		{ 
-			 {glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f)},
-			 {glm::vec3(-0.5f, 0.5f, 0.0f ), glm::vec3(0.0f)},
-			 {glm::vec3(0.5f, -0.5f, 0.0f ), glm::vec3(0.0f)},
-			 {glm::vec3(0.5f, 0.5f, 0.0f  ), glm::vec3(0.0f)}
+			 {glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)},
+			 {glm::vec3(-0.5f, 0.5f, 0.0f ), glm::vec3(0.0f, 0.0f, 1.0f)},
+			 {glm::vec3(0.5f, -0.5f, 0.0f ), glm::vec3(0.0f, 0.0f, 1.0f)},
+			 {glm::vec3(0.5f, 0.5f, 0.0f  ), glm::vec3(0.0f, 0.0f, 1.0f)}
 		};
 		unsigned char SquareIndices[] = { 0, 1, 2, 1, 2, 3 };
 
-		CalculateSurfaceNormal<unsigned char>(PtrToArr(SquareVertices), PtrToArr(SquareIndices), 6);
 		VertexBufferLayout PrimitiveLayout;
 		PrimitiveLayout.Push<float>(3);
 		PrimitiveLayout.Push<float>(3);

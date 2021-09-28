@@ -3,7 +3,7 @@
 #include "Yuzu.h"
 #include "Yuzu/World/Entities/TagEntity.h"
 #include "Projectile.h"
-
+#include "Square.h"
 
 class MyEntity : public Yuzu::TagEntity
 {
@@ -18,6 +18,8 @@ public:
 
 	void Update(float DeltaTime) override;
 
+	void RotateLeft(Yuzu::KeyState State);
+	void RotateRight(Yuzu::KeyState State);
 	void MoveUp(Yuzu::KeyState State);
 	void MoveDown(Yuzu::KeyState State);
 	void MoveLeft(Yuzu::KeyState State);
@@ -29,6 +31,8 @@ private:
 	Yuzu::InputComponent* m_InputComp;
 	Yuzu::TransformComponent* m_TransComp;
 	static Sptr<Yuzu::Texture> s_Texture;
+
+	Square sq;
 	bool m_Showed = false;
 	float m_Speed = 4.0f;
 	float m_JumpSpeed = 0.0f;

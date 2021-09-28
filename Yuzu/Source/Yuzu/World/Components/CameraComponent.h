@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include "Yuzu/Window/Window.h"
 
 
@@ -30,7 +31,15 @@ namespace Yuzu
             ProjectionMat = glm::perspective(m_FOV, (float)(Window::Width / Window::Height), 0.1f, 100.0f); 
         }
 
+        void RotateAngle(float angle, const glm::vec3& axis)
+        {
+            CameraFront = glm::rotate(CameraFront, glm::radians(angle), axis);
+        }
 
+        void RotateRadians(float angle, const glm::vec3& axis)
+        {
+            CameraFront = glm::rotate(CameraFront, angle, axis);
+        }
     private:
 
 

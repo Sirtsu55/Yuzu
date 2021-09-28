@@ -55,7 +55,7 @@ namespace Yuzu
 		}
 
 		//Sets the Transform by the given scale
-		void SetSize(glm::vec3 scale)
+		void SetSize(const glm::vec3& scale)
 		{
 			Transform[0][0] = scale.x;
 			Transform[1][1] = scale.y;
@@ -71,7 +71,7 @@ namespace Yuzu
 		}
 
 		//Adds the Transform by the given scale
-		void AddSize(glm::vec3 scale)
+		void AddSize(const glm::vec3& scale)
 		{
 			Transform[0][0] += scale.x;
 			Transform[1][1] += scale.y;
@@ -83,15 +83,19 @@ namespace Yuzu
 		}
 
 		//Multiplies the Transform by the given scale
-		void MulSize(glm::vec3 scale)
+		void MulSize(const glm::vec3& scale)
 		{
 			Transform = glm::scale(Transform, scale);
 		}
 		
 
-		void Rotate(float angle, glm::vec3 axis)
+		void RotateAngle(float angle, const glm::vec3& axis)
 		{
 			Transform = glm::rotate(Transform, glm::radians(angle), axis);
+		}
+		void RotateRadians(float angle, const glm::vec3& axis)
+		{
+			Transform = glm::rotate(Transform, angle, axis);
 		}
 
 

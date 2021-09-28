@@ -5,10 +5,11 @@ namespace Yuzu
 
 	struct Light
 	{
-		glm::vec3 Color;
-		float Radius;
+		glm::vec3 Color = glm::vec3(1.0f);
+		float AmbientIntensity = 0.1f;
 		glm::vec3 Position;
-		float Intensity;
+		float Intensity = 1.0f;
+		
 	};
 
 	struct _LightLoc
