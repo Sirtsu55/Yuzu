@@ -148,7 +148,7 @@ constexpr Uptr<T> CreateUptr(Args&& ... args)
 
 
 
-#define DEBUG_LEVEL 4
+#define DEBUG_LEVEL 3
 
 
 #if DEBUG_LEVEL > 0

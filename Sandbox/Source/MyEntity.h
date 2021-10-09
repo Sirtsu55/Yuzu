@@ -5,6 +5,7 @@
 #include "Projectile.h"
 #include "Square.h"
 
+
 class MyEntity : public Yuzu::TagEntity
 {
 
@@ -33,6 +34,7 @@ private:
 	static Sptr<Yuzu::Texture> s_Texture;
 
 	Square sq;
+	Yuzu::LightID Lig = { 0 };
 	bool m_Showed = false;
 	float m_Speed = 4.0f;
 	float m_JumpSpeed = 0.0f;

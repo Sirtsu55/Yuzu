@@ -73,25 +73,35 @@ vec4 Colorer()
 vec3 CalcLight(int LightIndex)
 {
 	Light light = _WorldLights[LightIndex];
-	const float SpecStrength = 0.5f;
 
-	vec3 normal = normalize(Normal);
-	vec3 lightdir = normalize(light.PositionIntensity.xyz - FragPos);
-	vec3 viewdir = normalize(CameraPos - FragPos);
-	float diff = max(dot(lightdir, normal), 0.0f);
+	const float SpecStrenght = 0.1f;
+
+	vec3 viewDir = normalize(CameraPos - FragPos);
 
 
-	vec3 reflectiondir = reflect(-lightdir, normal);
+    vec3 lightDir = normalize(light.PositionIntensity.xyz - FragPos);
 
+    // diffuse shading
+    float diff = max(dot(Normal, lightDir), 0.0);
 
-	float spec = pow(max(dot(viewdir, reflectiondir), 0.0), 32);
+    // specular shading
+    vec3 reflectDir = reflect(-lightDir, Normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 
-	vec3 specular = SpecStrength * spec * light.ColorAmbience.xyz;  
+    // attenuation
+    float dist    = length(light.PositionIntensity.xyz - FragPos);
+    float attenuation = 1.0 / (dist * dist);    
 
-	vec3 diffuse = diff * light.ColorAmbience.xyz;
-	vec3 ambient = light.ColorAmbience.w * light.ColorAmbience.xyz;
+    // combine results
+    vec3 ambient  = light.ColorAmbience.w  * light.ColorAmbience.xyz;
+    vec3 diffuse  = light.ColorAmbience.xyz  * diff;
 
-	return diffuse + ambient + specular;
+    vec3 specular =  light.ColorAmbience.xyz * spec;
+
+    ambient  *= attenuation;
+    diffuse  *= attenuation;
+    specular *= attenuation;
+    return (ambient + diffuse + specular) * light.PositionIntensity.w;
 
 }
 

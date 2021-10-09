@@ -11,6 +11,6 @@
 #include "Yuzu/Rendering/Renderer/Renderer.h"
 #include "Yuzu/Rendering/Renderer/BatchRenderer.h"
 #include "Yuzu/Timer/FuncTimer.h"
-
+#include "Yuzu/Rendering/Renderer/Lighter.h"
 
 #define YZ_APPLICATION(ClassName) Yuzu::Application* Yuzu::CreateApplication() { return new ClassName(); } 

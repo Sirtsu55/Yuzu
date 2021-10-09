@@ -4,7 +4,7 @@
 Sptr<Yuzu::Texture> MyEntity::s_Texture = nullptr;
 
 MyEntity::MyEntity(Yuzu::World* World)
-	:TagEntity(World, "Mario"), sq(glm::vec3(1.0f, 0.0f, -15.0f), glm::vec3(1.0f))
+	:TagEntity(World, "Mario"), sq(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.3f, 0.0f))
 {
 	AddComponent<Yuzu::TransformComponent>();
 
@@ -33,7 +33,13 @@ MyEntity::MyEntity(Yuzu::World* World)
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::Z, Entity_Keybind(MyEntity::RotateLeft));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::X, Entity_Keybind(MyEntity::RotateRight));
 
+	Yuzu::Light Lig1;
 
+	Lig1.Position = glm::vec3(10.0f, 0.0f, 1.1f);
+	Lig1.Intensity = 50.0f;
+	Lig1.AmbientIntensity = 0.2f;
+
+	Lig = Yuzu::Lighter::InsertLight(Lig1);
 	
 }
 
@@ -42,14 +48,21 @@ MyEntity::MyEntity(Yuzu::World* World)
 void MyEntity::Update(float DeltaTime)
 {
 
-	
-
 	//m_TransComp->RotateAngle(DeltaTime * 100, glm::vec3(0.0f, 1.0f, 0.0f));
 	//m_Camera->RotateAngle(DeltaTime * 100, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	//glm::vec3 loc = m_Camera->GetLocation() - glm::vec3(0.0f, 0.0f, 10.0f);
 
 	//m_TransComp->SetLocation(loc);
+
+
+	//Yuzu::Light Light;
+
+	//Light.Position = m_Camera->GetLocation();
+	//Light.Intensity = 200.0f;
+	//Light.AmbientIntensity = 0.2f;
+	//
+	//Yuzu::Lighter::UpdateLight(Lig, Light);
 	m_InputComp->UpdateContinuousKeys();
 }
 

@@ -25,24 +25,8 @@ void SandboxApp::Init()
 
 void SandboxApp::Start()
 {
+
 	MyEntity Square = MyEntity(m_World.get());
-
-	Yuzu::Light Lig;
-	Lig.Color = glm::vec3(1.0f, 1.0f, 1.0f);
-	Lig.Intensity = 5.0f;
-	Lig.AmbientIntensity = 0.3f;
-	Lig.Position = glm::vec3(0.0f, 0.0f, 0.1f);	
-
-	Yuzu::Light Lig1;
-	Lig1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
-	Lig1.Intensity = 5.0f;
-	Lig1.AmbientIntensity = 0.3f;
-	Lig1.Position = glm::vec3(1.0f, 0.0f, 0.1f);	
-
-
-	auto Loc = Yuzu::Lighter::InsertLight(Lig1);
-	auto Loc1 = Yuzu::Lighter::InsertLight(Lig);
-
 
 
 	Yuzu::RunGameLoop(ApplicationWindow);
@@ -77,6 +61,10 @@ void SandboxApp::OnWidgetRender(float Deltatime)
 		ImGui::Text("X: %f	Y: %f	Z: %f", CamLoc.x, CamLoc.y, CamLoc.z);
 		ImGui::Separator();
 		ImGui::Text("Time Elapsed: %f", Yuzu::GetElapsedSeconds());
+
+		ImGui::Separator();
+		ImGui::Text("FrameRate: %f", 1/Deltatime);
+		ImGui::Text("FrameTime: %fms", Deltatime * 1000);
 		ImGui::Endd();
 	}
 

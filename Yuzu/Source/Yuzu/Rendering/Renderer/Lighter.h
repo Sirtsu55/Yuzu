@@ -9,12 +9,13 @@ namespace Yuzu
 		float AmbientIntensity = 0.1f;
 		glm::vec3 Position;
 		float Intensity = 1.0f;
+
 		
 	};
 
-	struct _LightLoc
+	struct LightID
 	{
-		const void* LightAdress;
+		int LightAdress;
 	};
 
 
@@ -26,11 +27,11 @@ namespace Yuzu
 
 		static void _Init(unsigned int MaxLights);
 
-		static _LightLoc InsertLight(const Light& light);
+		static LightID InsertLight(const Light& light);
 
-		static void UpdateLight(const _LightLoc& Loc, const Light& NewLight);
+		static void UpdateLight(const LightID& Loc, const Light& NewLight);
 
-		static void DeleteLight(const _LightLoc LigLoc);
+		static void DeleteLight(const LightID& LigLoc);
 
 		static void _Bind();
 
@@ -40,6 +41,8 @@ namespace Yuzu
 		static unsigned int s_LightBufferID;
 		static unsigned int s_NumLights;
 		static bool Bound;
+		
+		static std::vector<void*> s_LightsLoc;
 		
 		friend class Renderer2D;
 
