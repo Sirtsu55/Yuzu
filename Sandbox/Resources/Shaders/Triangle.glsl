@@ -40,8 +40,24 @@ void main()
 struct Light
 {
 	vec4 ColorAmbience;
-	vec4 PositionIntensity;
+	vec4 PositionRadius;
+	
+	float SpecularIntensity;
+	float Power;
+
+
 };
+
+struct Material
+{
+	vec3 Color;
+	vec3 Diffuse;
+	vec3 Ambient;
+	vec3 Specular;
+
+	float Shininess;
+
+}
 
 
 layout (std430, binding = 0) buffer LightBuffer
@@ -50,7 +66,6 @@ layout (std430, binding = 0) buffer LightBuffer
 };
 
 
-uniform vec4 iColor;
 
 uniform unsigned int NumberOfLights;
 uniform vec3 CameraPos;
@@ -74,12 +89,11 @@ vec3 CalcLight(int LightIndex)
 {
 	Light light = _WorldLights[LightIndex];
 
-	const float SpecStrenght = 0.1f;
 
 	vec3 viewDir = normalize(CameraPos - FragPos);
 
 
-    vec3 lightDir = normalize(light.PositionIntensity.xyz - FragPos);
+    vec3 lightDir = normalize(light.PositionRadius.xyz - FragPos);
 
     // diffuse shading
     float diff = max(dot(Normal, lightDir), 0.0);
@@ -89,19 +103,19 @@ vec3 CalcLight(int LightIndex)
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 
     // attenuation
-    float dist    = length(light.PositionIntensity.xyz - FragPos);
+    float dist    = length(light.PositionRadius.xyz - FragPos);
     float attenuation = 1.0 / (dist * dist);    
 
     // combine results
     vec3 ambient  = light.ColorAmbience.w  * light.ColorAmbience.xyz;
     vec3 diffuse  = light.ColorAmbience.xyz  * diff;
 
-    vec3 specular =  light.ColorAmbience.xyz * spec;
+    vec3 specular =  vec3(light.SpecularIntensity) * spec;
 
     ambient  *= attenuation;
     diffuse  *= attenuation;
     specular *= attenuation;
-    return (ambient + diffuse + specular) * light.PositionIntensity.w;
+    return (ambient + diffuse + specular) * light.Power;
 
 }
 

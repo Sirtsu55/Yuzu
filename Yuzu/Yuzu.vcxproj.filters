@@ -867,6 +867,9 @@
     <ClInclude Include="Source\Yuzu\Rendering\Renderer\Lighter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Yuzu\Rendering\Objects\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vendor\glad\glad.c">
@@ -960,6 +963,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Yuzu\Rendering\Renderer\Lighter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Yuzu\Rendering\Objects\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -34,10 +34,16 @@ MyEntity::MyEntity(Yuzu::World* World)
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::X, Entity_Keybind(MyEntity::RotateRight));
 
 	Yuzu::Light Lig1;
+	Yuzu::Light Lig2;
 
 	Lig1.Position = glm::vec3(10.0f, 0.0f, 1.1f);
-	Lig1.Intensity = 50.0f;
+	Lig1.Power = 50.0f;
 	Lig1.AmbientIntensity = 0.2f;
+
+
+	Lig2.Position = glm::vec3(-5.0f, 0.0f, 1.1f);
+	Lig2.Power = 50.0f;
+	Lig2.AmbientIntensity = 0.2f;
 
 	Lig = Yuzu::Lighter::InsertLight(Lig1);
 	

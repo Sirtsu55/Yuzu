@@ -21,6 +21,10 @@ namespace Yuzu
 		SpriteComponent(const SpriteComponent&) = default;
 		~SpriteComponent() = default;
 
+		Material SpriteMaterial = 
+		{
+
+		};
 
 		void Hide()
 		{

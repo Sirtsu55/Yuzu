@@ -179,6 +179,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Yuzu\Rendering\Objects\Material.h" />
     <ClInclude Include="Source\Yuzu\Rendering\Renderer\Lighter.h" />
     <ClInclude Include="Source\Yuzu\Timer\FuncTimer.h" />
     <ClInclude Include="Source\Yuzu\Window\InputKeys.h" />
@@ -465,6 +466,7 @@
     <ClInclude Include="Source\Yuzu\World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Yuzu\Rendering\Objects\Material.cpp" />
     <ClCompile Include="Source\Yuzu\Rendering\Renderer\Lighter.cpp" />
     <ClCompile Include="Source\Yuzu\Timer\FuncTimer.cpp" />
     <ClCompile Include="Source\Yuzu\Window\InputListener.cpp" />
