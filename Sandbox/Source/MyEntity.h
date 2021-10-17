@@ -2,7 +2,6 @@
 
 #include "Yuzu.h"
 #include "Yuzu/World/Entities/TagEntity.h"
-#include "Projectile.h"
 #include "Square.h"
 
 

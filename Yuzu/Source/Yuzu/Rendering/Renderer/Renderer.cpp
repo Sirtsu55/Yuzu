@@ -38,7 +38,6 @@ namespace Yuzu
 				Square.CoreShader->SetMat4("ModelMatrix", Transform.Transform);
 				Square.CoreShader->SetMat3("NormalMatrix", NormMat);
 				Square.CoreShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
-				Square.CoreShader->SetVec4("iColor", Sprite.Color);
 				Square.CoreShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				Square.VAO->Bind();
@@ -55,7 +54,6 @@ namespace Yuzu
 				Triangle.CoreShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
 				Triangle.CoreShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
-				Triangle.CoreShader->SetVec4("iColor", Sprite.Color);
 				Triangle.VAO->Bind();
 				Triangle.EBO->Bind();
 				glDrawElements(GL_TRIANGLES, Triangle.EBO->GetCount(), Triangle.EBO->GetDataType(), NULL);
@@ -64,12 +62,12 @@ namespace Yuzu
 					
 			case Shape::Textured:
 			{
-				Sprite.SpriteShader->Bind();
-				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
-				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
-				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
-				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
+				Sprite.SpriteMat.MatShader->Bind();
+				Sprite.SpriteMat.MatShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
+				Sprite.SpriteMat.MatShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteMat.MatShader->SetMat3("NormalMatrix", NormMat);
+				Sprite.SpriteMat.MatShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteMat.MatShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				TexturedSquare.VAO->Bind();
 				TexturedSquare.EBO->Bind();
@@ -79,13 +77,12 @@ namespace Yuzu
 			}
 			case Shape::CustomSquare:
 			{
-				Sprite.SpriteShader->Bind();
-				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
-				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
-				Sprite.SpriteShader->SetVec4("iColor", Sprite.Color);
-				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
-				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
+				Sprite.SpriteMat.MatShader->Bind();
+				Sprite.SpriteMat.MatShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
+				Sprite.SpriteMat.MatShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteMat.MatShader->SetMat3("NormalMatrix", NormMat);
+				Sprite.SpriteMat.MatShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteMat.MatShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 				Square.VAO->Bind();
 				Square.EBO->Bind();
@@ -94,13 +91,12 @@ namespace Yuzu
 			}
 			case Shape::CustomTriangle:
 			{
-				Sprite.SpriteShader->Bind();
-				Sprite.SpriteShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
-				Sprite.SpriteShader->SetMat4("ModelMatrix", Transform.Transform);
-				Sprite.SpriteShader->SetMat3("NormalMatrix", NormMat);
-				Sprite.SpriteShader->SetVec4("iColor", Sprite.Color);
-				Sprite.SpriteShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
-				Sprite.SpriteShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
+				Sprite.SpriteMat.MatShader->Bind();
+				Sprite.SpriteMat.MatShader->SetMat4("MVPMatrix", Transform.GetMVPTransform());
+				Sprite.SpriteMat.MatShader->SetMat4("ModelMatrix", Transform.Transform);
+				Sprite.SpriteMat.MatShader->SetMat3("NormalMatrix", NormMat);
+				Sprite.SpriteMat.MatShader->SetUnsignedInt("NumberOfLights", Lighter::s_NumLights);
+				Sprite.SpriteMat.MatShader->SetVec3("CameraPos", CameraHandler::GetCameraLocation());
 
 
 				Triangle.VAO->Bind();

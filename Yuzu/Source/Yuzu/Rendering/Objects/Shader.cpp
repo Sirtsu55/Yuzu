@@ -54,7 +54,7 @@ namespace Yuzu
 
     void CoreShader::SetFloat(const char* name, const float val) const
     {
-        glUniform1f(GetUniformLocation(name), val)
+        glUniform1f(GetUniformLocation(name), val);
     }
 
     void CoreShader::SetVec4(const char* name, const glm::vec4& value) const

@@ -9,7 +9,9 @@ MyEntity::MyEntity(Yuzu::World* World)
 	AddComponent<Yuzu::TransformComponent>();
 
 	AddComponent<Yuzu::TickComponent>(this);
-	AddComponent<Yuzu::SpriteComponent>("Resources/Shaders/Triangle.glsl", Yuzu::Shape::CustomSquare);
+	Yuzu::MaterialSettings Mset;
+
+	AddComponent<Yuzu::SpriteComponent>(Yuzu::Shape::CustomSquare, Mset);
 	
 	
 	Yuzu::InputComponent& Inputs = AddComponent<Yuzu::InputComponent>(this, 10);
@@ -23,8 +25,7 @@ MyEntity::MyEntity(Yuzu::World* World)
 	m_TransComp = GetPtrToComponent<Yuzu::TransformComponent>();
 	m_TransComp->SetSize(3.0f);
 	
-	m_SpriteComp->Color = glm::vec4(1.00f, 0.45f, 0.00f, 1.0f);
-	
+
 
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::W, Entity_Keybind(MyEntity::MoveUp));
 	Inputs.AddContinuousKeybind(Yuzu::InputKey::S, Entity_Keybind(MyEntity::MoveDown));

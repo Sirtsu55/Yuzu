@@ -1,4 +1,5 @@
 #pragma once
+#include "Yuzu/Rendering/Objects/Material.h"
 
 
 namespace Yuzu
@@ -14,28 +15,16 @@ namespace Yuzu
 
 
 		SpriteComponent() = default;
-		SpriteComponent(const glm::vec4& color, Shape shape) : Color(color), ShapeType(shape) {}
-		SpriteComponent(const std::string path, Shape shape) 
-			: SpriteShader(CreateSptr<Yuzu::CoreShader>(path)), ShapeType(shape){}
+		SpriteComponent(Shape shape, const MaterialSettings& MatSettings) : ShapeType(shape), SpriteMat(MatSettings, "Resources/Shaders/Basic2D.glsl") {}
+		SpriteComponent(Shape shape, const MaterialSettings& MatSettings, const std::string& path)
+			: ShapeType(shape), SpriteMat(MatSettings, path)
+		{
+		}
 
 		SpriteComponent(const SpriteComponent&) = default;
 		~SpriteComponent() = default;
 
-		Material SpriteMaterial = 
-		{
 
-		};
-
-		void Hide()
-		{
-			Color.a = 0.0f;
-			Visible = false;
-		}
-		void Show()
-		{
-			Color.a = 1.0f;
-			Visible = true;
-		}
 
 		operator bool() const
 		{
@@ -48,18 +37,20 @@ namespace Yuzu
 		{
 			if (ShapeType == Shape::Textured)
 			{
-				SpriteShader->Bind();
-				SpriteShader->InsertTexture(Texture, slot);
-				std::string name = "Image" + std::to_string(slot);
-				SpriteShader->SetInt(name.c_str(), slot);
+
+			}
+
+			else
+			{
+				YZC_INFO("SpriteType Not Shape::Textured");
 			}
 		}
 
 		
 		bool Visible = true;
-		glm::vec4 Color = { 1.0f, 1.0f, 1.0f , 1.0f };
 		Shape ShapeType = Shape::Invalid;
-		Sptr<CoreShader> SpriteShader = nullptr;
+
+		Material SpriteMat;
 	private:
 	
 	};

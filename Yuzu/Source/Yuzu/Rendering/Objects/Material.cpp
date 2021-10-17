@@ -5,14 +5,18 @@ namespace Yuzu
 {
 
 
-
-
-
-
-	Material::Material(const glm::vec3& Diffuse, const glm::vec3& Ambient, const glm::vec3& Specular, float Shine)
+	Material::Material(const MaterialSettings& Settings, const std::string& ShaderPath)
+		:MatShader(CreateSptr<CoreShader>(ShaderPath))
 	{
+		MatShader->Bind();
+		SetColor(Settings.Color);
+		SetAmbient(Settings.Ambient);
+		SetDiffuse(Settings.Diffuse);
+		SetShine(Settings.Shine);
+		SetSpecular(Settings.Specular);
 	}
-	Material(const glm::vec3& Diffuse, const glm::vec3& Ambient, const glm::vec3& Specular, float Shine, const std::string& ShaderPath)
+
+	Material::Material()
 	{
 	}
 
@@ -20,30 +24,45 @@ namespace Yuzu
 	{
 	}
 
-	void Material::SetColor(const glm::vec3& Color)
+	void Material::SetColor(const glm::vec4& Color)
 	{
-		Sdr->SetVec3("Material.Color", Color);
+		if (MatShader != nullptr)
+		{
+			MatShader->SetVec4("Mat.Color", Color);
+		}
 	}
 
 	void Material::SetDiffuse(const glm::vec3& Diff)
 	{
-		Sdr->SetVec3("Material.Color", Color);
+		if (MatShader != nullptr)
+		{
+			MatShader->SetVec3("Mat.Diffuse", Diff);
+		}
 
 	}
 
 	void Material::SetAmbient(const glm::vec3& Amb)
 	{
-		Sdr->SetVec3("Material.Color", Color);
+		if (MatShader != nullptr)
+		{
+			MatShader->SetVec3("Mat.Ambient", Amb);
+		}
 	}
 
 	void Material::SetSpecular(const glm::vec3& Spec)
 	{
-		Sdr->SetVec3("Material.Color", Color);
+		if (MatShader != nullptr)
+		{
+			MatShader->SetVec3("Mat.Specular", Spec);
+		}
 	}
 
-	void Material::SetShine(const glm::vec3& Shine)
+	void Material::SetShine(const float Shine)
 	{
-		Sdr->SetVec3("Material.Color", Color);
+		if (MatShader != nullptr)
+		{
+			MatShader->SetFloat("Mat.Shinienss", Shine);
+		}
 	}
 
 

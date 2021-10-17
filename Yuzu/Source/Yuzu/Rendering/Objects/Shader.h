@@ -53,12 +53,6 @@ namespace Yuzu
 
 		static ShaderSource ParseShader(std::string Path);
 	};
-	struct Shader
-	{
-		std::string Path;
-		ShaderSource Src;
-		Sptr<CoreShader> shader;
-	};
 
 
 }

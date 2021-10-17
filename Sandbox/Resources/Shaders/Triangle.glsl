@@ -54,10 +54,9 @@ struct Material
 	vec3 Diffuse;
 	vec3 Ambient;
 	vec3 Specular;
+	float Shine;
 
-	float Shininess;
-
-}
+};
 
 
 layout (std430, binding = 0) buffer LightBuffer
@@ -82,7 +81,7 @@ out vec4 FragColor;
 vec4 Colorer()
 {
 	
-	return iColor;
+	return vec4(1.0f);
 }
 
 vec3 CalcLight(int LightIndex)

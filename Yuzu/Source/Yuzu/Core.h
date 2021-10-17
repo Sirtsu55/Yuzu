@@ -30,7 +30,6 @@
 
 #include "Rendering/Objects/ElementBuffer.h"
 #include "Rendering/Objects/Shader.h"
-#include "Rendering/Objects/Material.h"
 #include "Rendering/Objects/Texture.h"
 
 
